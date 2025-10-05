@@ -6,7 +6,7 @@ cpmaddpackage(
     GITHUB_REPOSITORY
     libsdl-org/SDL
     GIT_TAG
-    a96677bdf6b4acb84af4ec294e5f60a4e8cbbe03
+    a8589a84226a6202831a3d49ff4edda4acab9acd
     SYSTEM
     ON
     GIT_SHALLOW

@@ -81,15 +81,15 @@ choco install cmake llvm visualstudio2019buildtools doxygen
 #### Ubuntu/Debian
 
 ```bash
-sudo apt update
-sudo apt install cmake g++ doxygen
+sudo apt-get update
+sudo apt-get install cmake g++ doxygen llvm clang-tools python-devel
 ```
 
 #### Fedora
 
 ```bash
 sudo dnf check-update
-sudo dnf install cmake gcc-c++ doxygen
+sudo dnf install cmake gcc-c++ doxygen llvm python-devel
 ```
 
 ## 🛠️ Build & Deployment
@@ -143,6 +143,7 @@ python -m http.server 8080
 - **[C++23 Features](https://en.cppreference.com/w/cpp/23)** — Latest standard capabilities
 - **[Compiler Explorer](https://godbolt.org/)** — Live assembly output analysis
 - **[Quick Bench](https://quick-bench.com/)** — Online micro-benchmarking
+- **[cpp insights](https://cppinsights.io/)** — Online insights on how compiler will understand the code
 
 ## 🤝 Contributing
 
