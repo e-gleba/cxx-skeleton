@@ -1,6 +1,6 @@
-# modern c++ project template
+# 🚀 Modern C++ Project Template
 
-## features
+## 🌟 Features
 
 - **🔬 c++23/26 ready**
 - **📦 cpm package management**
@@ -10,16 +10,16 @@
 - **🌐 Cross-Platform**: Linux, Windows, Android, macOS support
 - **💻 ide compatibility**: Works with QtCreator, CLion, Visual Studio, KDevelop
 
-## prerequisites
+## 🚧 Prerequisites
 
 - `cmake 3.30.0+`
 - `C++ compiler with C++23 support`
 - `ninja`
 - `(optional) cmake/cfg/*.cmake tools`
 
-## installation
+## 💾 Installation
 
-### macos
+### 🍎 macOS
 
 ```bash
 # Homebrew
@@ -29,7 +29,7 @@
 brew install cmake llvm doxygen
 ```
 
-### windows
+### 🪟 Windows
 
 ```powershell
 # Chocolatey
@@ -39,25 +39,25 @@ brew install cmake llvm doxygen
 choco install cmake llvm visualstudio2019buildtools doxygen
 ```
 
-### linux
+### 🐧 Linux
 
-#### debian
+#### Ubuntu/Debian
 
 ```bash
 sudo apt-get update
 sudo apt-get install cmake g++ doxygen llvm clang-tools python-devel
 ```
 
-#### fedora
+#### Fedora
 
 ```bash
 sudo dnf check-update
 sudo dnf install cmake gcc-c++ doxygen llvm python-devel
 ```
 
-## build & deploy
+## 🛠️ Build & Deployment
 
-### build project
+### Build Project
 
 ```bash
 cmake --preset=gcc .
@@ -65,20 +65,20 @@ cd build/release
 cmake --build . --config gcc
 ```
 
-### run tests
+### Run Tests
 
 ```bash
 cd build/gcc
 ctest --output-on-failure
 ```
 
-### docker build
+### Docker Build
 
 ```bash
 docker build -t my-image -f docker/<desired_os>.Dockerfile .
 ```
 
-## documentation
+## 📚 Documentation
 
 ```bash
 cd build/gcc
@@ -89,16 +89,16 @@ cd build/gcc/docs/doxygen/html
 python -m http.server 8080
 ```
 
-## learning
+## 📖 Learning Resources
 
-### essential
+### Essential Reading
 
 - **[C++ Weekly](https://www.youtube.com/@cppweekly)** by Jason Turner — Weekly doses of modern C++
 - **[Performance-Aware Programming](https://www.computerenhance.com/)** by Casey Muratori — Hardware-conscious development
 - **[C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/)** by Stroustrup & Sutter — Industry best practices
 - **[Effective Modern C++](https://www.oreilly.com/library/view/effective-modern-c/9781491908419/)** by Scott Meyers — Essential patterns
 
-### references
+### Technical References
 
 - **[cppreference.com](https://en.cppreference.com/)** — Comprehensive language reference
 - **[C++23 Features](https://en.cppreference.com/w/cpp/23)** — Latest standard capabilities
