@@ -34,18 +34,18 @@ Contemporary C++ development requires sophisticated tooling integration that add
 
 ### Core Development Features
 
-| Component             | Technology                       | Configuration                |
-| --------------------- | -------------------------------- | ---------------------------- |
-| **Build System**      | CMake 3.30+                      | Multi-preset configuration   |
-| **Compiler Support**  | GCC 13+, Clang 16+, MSVC 19.35+  | Standards-compliant C++23/26 |
+| Component            | Technology                      | Configuration                |
+| -------------------- | ------------------------------- | ---------------------------- |
+| **Build System**     | CMake 3.30+                     | Multi-preset configuration   |
+| **Compiler Support** | GCC 13+, Clang 16+, MSVC 19.35+ | Standards-compliant C++23/26 |
 
 ### Quality Assurance Pipeline
 
-| Tool Category             | Implementation                    | Integration             | 
-| ------------------------- | --------------------------------- | ----------------------- | 
-| **Static Analysis**       | Clang-Static-Analyzer, PVS-Studio | Pre-commit hooks        | 
-| **Dynamic Analysis**      | AddressSanitizer, MemorySanitizer | CI/CD integration       |
-| **Documentation**         | Doxygen                           | Automated generation    |
+| Tool Category        | Implementation                    | Integration          |
+| -------------------- | --------------------------------- | -------------------- |
+| **Static Analysis**  | Clang-Static-Analyzer, PVS-Studio | Pre-commit hooks     |
+| **Dynamic Analysis** | AddressSanitizer, MemorySanitizer | CI/CD integration    |
+| **Documentation**    | Doxygen                           | Automated generation |
 
 ## 🚧 Prerequisites
 
@@ -133,12 +133,14 @@ python -m http.server 8080
 ## 📖 Learning Resources
 
 ### Essential Reading
+
 - **[C++ Weekly](https://www.youtube.com/@cppweekly)** by Jason Turner — Weekly doses of modern C++
 - **[Performance-Aware Programming](https://www.computerenhance.com/)** by Casey Muratori — Hardware-conscious development
 - **[C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/)** by Stroustrup & Sutter — Industry best practices
 - **[Effective Modern C++](https://www.oreilly.com/library/view/effective-modern-c/9781491908419/)** by Scott Meyers — Essential patterns
 
 ### Technical References
+
 - **[cppreference.com](https://en.cppreference.com/)** — Comprehensive language reference
 - **[C++23 Features](https://en.cppreference.com/w/cpp/23)** — Latest standard capabilities
 - **[Compiler Explorer](https://godbolt.org/)** — Live assembly output analysis
@@ -157,8 +159,8 @@ Contributions are welcome! Fork the repository and submit a pull request.
 
 Thanks to CMake, CTest, and the open-source community.
 
---- 
+---
 
-> *"C++ is a language for people who want both elegance and efficiency."* — **Bjarne Stroustrup**
+> _"C++ is a language for people who want both elegance and efficiency."_ — **Bjarne Stroustrup**
 
 Built with 💙 by developers who believe that **performance-aware programming** is not premature optimization — it's responsible engineering.

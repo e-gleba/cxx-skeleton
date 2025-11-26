@@ -18,9 +18,6 @@ set_target_properties(sdl_app PROPERTIES CXX_STANDARD 23 CXX_STANDARD_REQUIRED
 
 install(
     TARGETS sdl_app
-    LIBRARY DESTINATION lib # .so/.dylib
-    RUNTIME DESTINATION bin # .dll (Windows)
-    ARCHIVE DESTINATION lib # .lib (Windows import lib)
             COMPONENT runtime)
 
 cpack_add_component(
