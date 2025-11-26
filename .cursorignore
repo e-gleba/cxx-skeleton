@@ -3,3 +3,5 @@ external/
 build/
 llvm-mingw/
 compile_commands.json
+license
+.clang-format
