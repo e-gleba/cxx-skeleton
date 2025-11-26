@@ -1,51 +1,14 @@
 # 🚀 Modern C++ Project Template
 
-[![C++ Standard](https://img.shields.io/badge/C%2B%2B-23%2F26-00599C?style=for-the-badge&logo=cplusplus&logoColor=white&labelColor=1C1C1C)](https://isocpp.org/)
-[![CMake](https://img.shields.io/badge/CMake-3.30%2B-064F8C?style=for-the-badge&logo=cmake&logoColor=white&labelColor=1C1C1C)](https://cmake.org)
-[![License](https://img.shields.io/badge/License-AGPL--3.0-FF6B6B?style=for-the-badge&logo=gnu&logoColor=white&labelColor=1C1C1C)](https://www.gnu.org/licenses/agpl-3.0.html)
-
-[![Build Matrix](https://img.shields.io/badge/Build%20Matrix-GCC%20%7C%20Clang%20%7C%20MSVC-4ECDC4?style=for-the-badge&logo=githubactions&logoColor=white&labelColor=1C1C1C)](https://github.com/features/actions)
-[![Performance](https://img.shields.io/badge/Performance-TODO-45B7D1?style=for-the-badge&logo=speedtest&logoColor=white&labelColor=1C1C1C)](#performance-benchmarks)
-[![Architecture](https://img.shields.io/badge/Architecture-x64%20%7C%20ARM64-96CEB4?style=for-the-badge&logo=arm&logoColor=white&labelColor=1C1C1C)](#supported-architectures)
-
-[![Documentation](https://img.shields.io/badge/Docs-Doxygen-FEA47F?style=for-the-badge&logo=readthedocs&logoColor=white&labelColor=1C1C1C)](https://doxygen.nl/)
-[![Testing](https://img.shields.io/badge/Testing-Doctest-F7931E?style=for-the-badge&logo=testinglibrary&logoColor=white&labelColor=1C1C1C)](#testing-framework)
-[![Package Manager](https://img.shields.io/badge/Dependencies-CPM-FF7F7F?style=for-the-badge&logo=cmake&logoColor=white&labelColor=1C1C1C)](#dependency-management)
-
-[![Containerization](https://img.shields.io/badge/Docker-Distroless-0db7ed?style=for-the-badge&logo=docker&logoColor=white&labelColor=1C1C1C)](https://www.docker.com/)
-[![CI/CD](https://img.shields.io/badge/Pipeline-GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white&labelColor=1C1C1C)](#continuous-integration)
-[![IDE Support](https://img.shields.io/badge/IDE-CLion%20%7C%20VS%20Code%20%7C%20Qt%20Creator-FF6B6B?style=for-the-badge&logo=visualstudiocode&logoColor=white&labelColor=1C1C1C)](#development-environment)
-
 ## 🌟 Features
 
-- **🔬 C++23 Ready Presets**: Leverage cutting-edge C++ features
-- **🛡️ Code Quality Tools**: Integrated targets for maintaining high standards
-- **📦 CPM Package Management**: Simplified dependency handling
-- **📄 Doxygen Configuration**: Seamless documentation generation
-- **🧪 CTest Integration**: Straightforward testing setup (doctest + androidTest)
-- **🐳 Docker Support**: Pre-configured containerization
-- **💻 IDE Compatibility**: Works with QtCreator, CLion, Visual Studio, KDevelop
+- **🔬 c++23/26 ready**
+- **📦 cpm package management**
+- **📄 doxygen/clang_doc**
+- **🧪 CTest**: (doctest + androidTest)
+- **🐳 docker**
 - **🌐 Cross-Platform**: Linux, Windows, Android, macOS support
-- **🏗️ CMake-Driven**: Streamlined CI/CD configuration
-
-## Advanced Feature Matrix
-
-Contemporary C++ development requires sophisticated tooling integration that addresses performance, maintainability, and developer experience concerns. This template provides a comprehensive foundation for high-performance applications with enterprise-grade quality assurance mechanisms.
-
-### Core Development Features
-
-| Component            | Technology                      | Configuration                |
-| -------------------- | ------------------------------- | ---------------------------- |
-| **Build System**     | CMake 3.30+                     | Multi-preset configuration   |
-| **Compiler Support** | GCC 13+, Clang 16+, MSVC 19.35+ | Standards-compliant C++23/26 |
-
-### Quality Assurance Pipeline
-
-| Tool Category        | Implementation                    | Integration          |
-| -------------------- | --------------------------------- | -------------------- |
-| **Static Analysis**  | Clang-Static-Analyzer, PVS-Studio | Pre-commit hooks     |
-| **Dynamic Analysis** | AddressSanitizer, MemorySanitizer | CI/CD integration    |
-| **Documentation**    | Doxygen                           | Automated generation |
+- **💻 ide compatibility**: Works with QtCreator, CLion, Visual Studio, KDevelop
 
 ## 🚧 Prerequisites
 
@@ -126,10 +89,6 @@ cd build/gcc/docs/doxygen/html
 python -m http.server 8080
 ```
 
-## 🚧 Roadmap
-
-- [ ] develop
-
 ## 📖 Learning Resources
 
 ### Essential Reading
@@ -146,21 +105,3 @@ python -m http.server 8080
 - **[Compiler Explorer](https://godbolt.org/)** — Live assembly output analysis
 - **[Quick Bench](https://quick-bench.com/)** — Online micro-benchmarking
 - **[cpp insights](https://cppinsights.io/)** — Online insights on how compiler will understand the code
-
-## 🤝 Contributing
-
-Contributions are welcome! Fork the repository and submit a pull request.
-
-## 📄 License
-
-[AGPL-3.0 License](license)
-
-## 🙏 Acknowledgments
-
-Thanks to CMake, CTest, and the open-source community.
-
----
-
-> _"C++ is a language for people who want both elegance and efficiency."_ — **Bjarne Stroustrup**
-
-Built with 💙 by developers who believe that **performance-aware programming** is not premature optimization — it's responsible engineering.
