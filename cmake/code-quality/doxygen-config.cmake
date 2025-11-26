@@ -33,29 +33,20 @@ if(DOXYGEN_FOUND)
     set(DOXYGEN_MATHJAX_FORMAT TeX)
     set(DOXYGEN_USE_MATHJAX YES)
 
-    doxygen_add_docs(
-        doxygen
-        ${PROJECT_SOURCE_DIR}
-        ALL
-        COMMENT "Building API documentation"
-    )
+    doxygen_add_docs(doxygen ${PROJECT_SOURCE_DIR} ALL
+                     COMMENT "Building API documentation")
 
-    install(
-        DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/generated-docs"
-        DESTINATION "share/doc/${PROJECT_NAME}"
-        COMPONENT documentation
-    )
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/generated-docs"
+            DESTINATION "share/doc/${PROJECT_NAME}" COMPONENT documentation)
 else()
     message(
-        WARNING
-        "Doxygen not found - documentation targets disabled\n"
-        "Installation commands:\n"
-        "\n"
-        "  Fedora:    sudo dnf install doxygen graphviz\n"
-        "  Ubuntu:    sudo apt install doxygen doxygen-latex\n"
-        "  macOS:     brew install doxygen\n"
-        "  Windows:   choco install doxygen.install\n"
-        "\n"
-        "Regenerate project after installation"
-    )
+        WARNING "Doxygen not found - documentation targets disabled\n"
+                "Installation commands:\n"
+                "\n"
+                "  Fedora:    sudo dnf install doxygen graphviz\n"
+                "  Ubuntu:    sudo apt install doxygen doxygen-latex\n"
+                "  macOS:     brew install doxygen\n"
+                "  Windows:   choco install doxygen.install\n"
+                "\n"
+                "Regenerate project after installation")
 endif()

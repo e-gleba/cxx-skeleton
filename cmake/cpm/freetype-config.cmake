@@ -9,8 +9,9 @@ cpmaddpackage(
     VER-2-10-0
     VERSION
     2.10.0
-    SYSTEM ON
-        GIT_SHALLOW
+    SYSTEM
+    ON
+    GIT_SHALLOW
     ON
     OPTIONS
     "FT_DISABLE_BZIP2 ON"
@@ -18,14 +19,11 @@ cpmaddpackage(
     "FT_DISABLE_HARFBUZZ ON"
     "FT_DISABLE_BROTLI ON"
     "FT_WITH_ZLIB OFF"
-    "FT_ENABLE_ERROR_STRINGS OFF"
-)
+    "FT_ENABLE_ERROR_STRINGS OFF")
 
 set_target_properties(
-    freetype
-    PROPERTIES
-        CMAKE_RC_FLAGS "$<$<C_COMPILER_ID:MSVC>:${CMAKE_RC_FLAGS} /c65001>"
-)
+    freetype PROPERTIES CMAKE_RC_FLAGS
+                        "$<$<C_COMPILER_ID:MSVC>:${CMAKE_RC_FLAGS} /c65001>")
 
 target_compile_options(freetype PRIVATE "$<$<C_COMPILER_ID:MSVC>:/c65001>")
 # Or, if you want to append, use a generator expression to only apply for MSVC:
