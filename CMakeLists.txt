@@ -11,35 +11,26 @@ list(
     APPEND
     CMAKE_PREFIX_PATH
     ${CMAKE_CURRENT_LIST_DIR}/cmake
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/pkg
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/utils)
+    ${CMAKE_CURRENT_LIST_DIR}/cmake/description
+    ${CMAKE_CURRENT_LIST_DIR}/cmake/code-quality)
 
 if(CMAKE_CROSSCOMPILING)
     list(
         APPEND
         CMAKE_FIND_ROOT_PATH
-        "${CMAKE_CURRENT_LIST_DIR}/cmake"
-        "${CMAKE_CURRENT_LIST_DIR}/cmake/pkg"
-        "${CMAKE_CURRENT_LIST_DIR}/cmake/utils")
+        ${CMAKE_CURRENT_LIST_DIR}/cmake
+        ${CMAKE_CURRENT_LIST_DIR}/cmake/description
+        ${CMAKE_CURRENT_LIST_DIR}/cmake/code-quality)
 endif()
 
 find_package(warnings CONFIG REQUIRED)
-find_package(package CONFIG REQUIRED)
+find_package(package_description CONFIG REQUIRED)
 
-# Tooling (optional but guarded)
-option(ENABLE_DEV_TOOLS "Enable dev tools like clang-format, clang-tidy, etc."
-       OFF)
-
-if(ENABLE_DEV_TOOLS)
-    find_package(clang_format CONFIG REQUIRED)
-    find_package(clang_tidy CONFIG REQUIRED)
-    find_package(clang_doc CONFIG REQUIRED)
-    find_package(cpplint CONFIG REQUIRED)
-    find_package(doxygen CONFIG REQUIRED)
-
-    # Optional: fail if critical tools missing in dev mode?
-    # mark_as_advanced(...)  # hide from GUI if desired
-endif()
+find_package(clang_format CONFIG REQUIRED)
+find_package(clang_tidy CONFIG REQUIRED)
+find_package(clang_doc CONFIG REQUIRED)
+find_package(cpplint CONFIG REQUIRED)
+find_package(doxygen CONFIG REQUIRED)
 
 find_package(cpm CONFIG REQUIRED)
 

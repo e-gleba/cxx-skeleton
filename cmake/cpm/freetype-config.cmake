@@ -1,8 +1,24 @@
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+
 cpmaddpackage(
-    NAME freetype
-    GITHUB_REPOSITORY aseprite/freetype2
-    GIT_TAG VER-2-10-0
-    VERSION 2.10.0
+    NAME
+    freetype
+    GITHUB_REPOSITORY
+    aseprite/freetype2
+    GIT_TAG
+    VER-2-10-0
+    VERSION
+    2.10.0
+    SYSTEM ON
+        GIT_SHALLOW
+    ON
+    OPTIONS
+    "FT_DISABLE_BZIP2 ON"
+    "FT_DISABLE_PNG ON"
+    "FT_DISABLE_HARFBUZZ ON"
+    "FT_DISABLE_BROTLI ON"
+    "FT_WITH_ZLIB OFF"
+    "FT_ENABLE_ERROR_STRINGS OFF"
 )
 
 set_target_properties(
