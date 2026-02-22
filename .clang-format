@@ -1,25 +1,26 @@
 # yaml-language-server: $schema=https://www.schemastore.org/clang-format-21.x.json
 ---
 Language: Cpp
-# BasedOnStyle:  Mozilla File
+# BasedOnStyle: Mozilla
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveDeclarations: Consecutive
-AlignOperands: true
+AlignOperands: Align
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Inline
-AllowShortIfStatementsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: MultiLine
 BinPackArguments: false
-BinPackParameters: false
+BinPackParameters: OnePerLine
+BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass: true
   AfterControlStatement: Never
@@ -33,7 +34,6 @@ BraceWrapping:
   BeforeElse: false
   IndentBraces: false
 BreakBeforeBinaryOperators: None
-BreakBeforeBraces: Allman
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: true
 BreakAfterJavaFieldAnnotations: false
@@ -76,14 +76,16 @@ PenaltyBreakString: 1000
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
-ReflowComments: true
-SortIncludes: CaseSensitive
+ReflowComments: Always
+SortIncludes:
+  Enabled: true
+  IgnoreCase: false
 SpaceAfterCStyleCast: false
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
-SpacesInAngles: false
+SpacesInAngles: Never
 SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
