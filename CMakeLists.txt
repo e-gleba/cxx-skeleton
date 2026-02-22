@@ -10,17 +10,17 @@ project(
 list(
     APPEND
     CMAKE_PREFIX_PATH
-    ${CMAKE_CURRENT_LIST_DIR}/cmake
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/description
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/code-quality)
+    "${CMAKE_CURRENT_LIST_DIR}/cmake"
+    "${CMAKE_CURRENT_LIST_DIR}/cmake/description"
+    "${CMAKE_CURRENT_LIST_DIR}/cmake/code_quality")
 
 if(CMAKE_CROSSCOMPILING)
     list(
         APPEND
         CMAKE_FIND_ROOT_PATH
-        ${CMAKE_CURRENT_LIST_DIR}/cmake
-        ${CMAKE_CURRENT_LIST_DIR}/cmake/description
-        ${CMAKE_CURRENT_LIST_DIR}/cmake/code-quality)
+        "${CMAKE_CURRENT_LIST_DIR}/cmake"
+        "${CMAKE_CURRENT_LIST_DIR}/cmake/description"
+        "${CMAKE_CURRENT_LIST_DIR}/cmake/code_quality")
 endif()
 
 find_package(warnings CONFIG REQUIRED)

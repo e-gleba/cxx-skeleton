@@ -4,7 +4,7 @@ cpmaddpackage(
     GITHUB_REPOSITORY
     g-truc/glm
     GIT_TAG
-    1.0.2
+    1.0.3
     OPTIONS
     "GLM_BUILD_TESTS OFF"
     "GLM_BUILD_INSTALL OFF"

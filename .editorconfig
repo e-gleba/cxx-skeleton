@@ -1,3 +1,4 @@
+; EditorConfig: see https://spec.editorconfig.org/
 [*]
 charset = utf-8
 end_of_line = lf

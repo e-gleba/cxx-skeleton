@@ -1,3 +1,4 @@
+# Schema: https://cmake-format.readthedocs.io/en/latest/configuration.html
 # ----------------------------------
 # Options affecting listfile parsing
 # ----------------------------------

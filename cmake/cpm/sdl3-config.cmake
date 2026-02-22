@@ -1,3 +1,4 @@
+# When update, do not forget to place java impl in sync
 cpmaddpackage(
     NAME
     SDL3

@@ -4,7 +4,7 @@ add_executable(cli_app main.cpp)
 target_link_libraries(cli_app PRIVATE warnings)
 set_target_properties(
     cli_app
-    PROPERTIES CXX_STANDARD 23
+    PROPERTIES CXX_STANDARD 26
                CXX_STANDARD_REQUIRED YES
                CXX_EXTENSIONS NO
                OUTPUT_NAME "cli_app")

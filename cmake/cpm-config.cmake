@@ -35,3 +35,4 @@ list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_LIST_DIR}/cpm)
 
 find_package(doctest CONFIG REQUIRED)
 find_package(sdl3 CONFIG REQUIRED)
+find_package(gsl CONFIG REQUIRED)

@@ -2,7 +2,7 @@ cpmaddpackage(
     NAME
     spdlog
     GIT_TAG
-    v1.16.0
+    v1.17.0
     GITHUB_REPOSITORY
     gabime/spdlog
     OPTIONS
