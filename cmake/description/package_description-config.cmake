@@ -59,14 +59,6 @@ set(CPACK_NSIS_MODIFY_PATH ON)
 set(CPACK_NSIS_MUI_ICON "${PROJECT_ICON_FILE}")
 set(CPACK_NSIS_MUI_UNIICON "${PROJECT_ICON_FILE}")
 
-include(CPack)
-
-cpack_add_component(
-    documentation
-    DISPLAY_NAME "Documentation"
-    DESCRIPTION "Project README and license"
-    GROUP "Documentation")
-
 install(
     FILES "${PROJECT_README_FILE}" "${PROJECT_LICENSE_FILE}"
     DESTINATION "share/doc/${PROJECT_NAME}"
@@ -81,3 +73,10 @@ install(FILES "${PROJECT_ICON_FILE}"
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.desktop"
         DESTINATION "share/applications")
+
+include(CPack)
+cpack_add_component(
+    documentation
+    DISPLAY_NAME "Documentation"
+    DESCRIPTION "Project README and license"
+    GROUP "Documentation")
