@@ -1,6 +1,6 @@
 {
   "$schema": "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json",
-  "version": 9,
+  "version": 10,
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 30,
@@ -103,6 +103,41 @@
       }
     },
     {
+      "name": "llvm-mingw-base",
+      "displayName": "LLVM-MinGW Base",
+      "description": "Base configuration for LLVM-MinGW cross-compilation",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/llvm_mingw.cmake",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_SYSTEM_NAME": "Windows",
+        "DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST": "ON"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "llvm-mingw-i686",
+      "displayName": "LLVM-MinGW Win32 (i686)",
+      "description": "Cross-compile for Windows 32-bit using LLVM-MinGW toolchain",
+      "inherits": "llvm-mingw-base",
+      "cacheVariables": {
+        "CMAKE_SYSTEM_PROCESSOR": "i686"
+      }
+    },
+    {
+      "name": "llvm-mingw-x86_64",
+      "displayName": "LLVM-MinGW Win64 (x86_64)",
+      "description": "Cross-compile for Windows 64-bit using LLVM-MinGW toolchain",
+      "inherits": "llvm-mingw-base",
+      "cacheVariables": {
+        "CMAKE_SYSTEM_PROCESSOR": "x86_64"
+      }
+    },
+    {
       "name": "clang",
       "displayName": "LLVM Clang",
       "description": "Clang toolchain configuration with modern C++ standards and optimizations",
@@ -156,6 +191,20 @@
       "configuration": "Release"
     },
     {
+      "name": "llvm-mingw-i686",
+      "displayName": "LLVM-MinGW Win32 Build",
+      "configurePreset": "llvm-mingw-i686",
+      "configuration": "Release",
+      "jobs": 1
+    },
+    {
+      "name": "llvm-mingw-x86_64",
+      "displayName": "LLVM-MinGW Win64 Build",
+      "configurePreset": "llvm-mingw-x86_64",
+      "configuration": "Release",
+      "jobs": 1
+    },
+    {
       "name": "clang",
       "displayName": "Clang Build",
       "configurePreset": "clang",
@@ -173,6 +222,34 @@
       "name": "msvc",
       "displayName": "MSVC Tests",
       "configurePreset": "msvc",
+      "configuration": "Release",
+      "output": {
+        "outputOnFailure": true,
+        "verbosity": "default"
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "llvm-mingw-i686",
+      "displayName": "LLVM-MinGW Win32 Tests",
+      "configurePreset": "llvm-mingw-i686",
+      "configuration": "Release",
+      "output": {
+        "outputOnFailure": true,
+        "verbosity": "default"
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "llvm-mingw-x86_64",
+      "displayName": "LLVM-MinGW Win64 Tests",
+      "configurePreset": "llvm-mingw-x86_64",
       "configuration": "Release",
       "output": {
         "outputOnFailure": true,
@@ -217,25 +294,51 @@
       "name": "android-package",
       "displayName": "Android Package",
       "configurePreset": "android-universal",
-      "generators": ["ZIP"]
+      "generators": [
+        "ZIP"
+      ]
     },
     {
       "name": "msvc-package",
       "displayName": "MSVC Package",
       "configurePreset": "msvc",
-      "generators": ["ZIP"]
+      "generators": [
+        "ZIP"
+      ]
+    },
+    {
+      "name": "llvm-mingw-i686-package",
+      "displayName": "LLVM-MinGW Win32 Package",
+      "configurePreset": "llvm-mingw-i686",
+      "generators": [
+        "TXZ"
+      ]
+    },
+    {
+      "name": "llvm-mingw-x86_64-package",
+      "displayName": "LLVM-MinGW Win64 Package",
+      "configurePreset": "llvm-mingw-x86_64",
+      "generators": [
+        "TXZ"
+      ]
     },
     {
       "name": "clang-package",
       "displayName": "Clang Package",
       "configurePreset": "clang",
-      "generators": ["TGZ", "RPM"]
+      "generators": [
+        "TGZ",
+        "RPM"
+      ]
     },
     {
       "name": "gcc-package",
       "displayName": "GCC Package",
       "configurePreset": "gcc",
-      "generators": ["TGZ", "RPM"]
+      "generators": [
+        "TGZ",
+        "RPM"
+      ]
     }
   ],
   "workflowPresets": [
@@ -278,6 +381,52 @@
         {
           "type": "package",
           "name": "msvc-package"
+        }
+      ]
+    },
+    {
+      "name": "llvm-mingw-i686-full",
+      "displayName": "LLVM-MinGW Win32 Complete Pipeline",
+      "description": "Full cross-compilation workflow for Windows 32-bit",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "llvm-mingw-i686"
+        },
+        {
+          "type": "build",
+          "name": "llvm-mingw-i686"
+        },
+        {
+          "type": "test",
+          "name": "llvm-mingw-i686"
+        },
+        {
+          "type": "package",
+          "name": "llvm-mingw-i686-package"
+        }
+      ]
+    },
+    {
+      "name": "llvm-mingw-x86_64-full",
+      "displayName": "LLVM-MinGW Win64 Complete Pipeline",
+      "description": "Full cross-compilation workflow for Windows 64-bit",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "llvm-mingw-x86_64"
+        },
+        {
+          "type": "build",
+          "name": "llvm-mingw-x86_64"
+        },
+        {
+          "type": "test",
+          "name": "llvm-mingw-x86_64"
+        },
+        {
+          "type": "package",
+          "name": "llvm-mingw-x86_64-package"
         }
       ]
     },
