@@ -121,10 +121,47 @@ cmake --build build/<preset_name> --target tidy
 
 ## References
 
-- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/) — Best practices
-- [cppreference.com](https://en.cppreference.com/) — Language reference
-- [Compiler Explorer](https://godbolt.org/) — Assembly inspection
+### Standards & Documentation
+
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/) — Best practices by Stroustrup & Sutter
+- [cppreference.com](https://en.cppreference.com/) — Comprehensive language reference
+- [C++ Draft Standard](https://eel.is/c++draft) — Latest working draft (HTML)
+- [C++ Standards Archive](https://timsong-cpp.github.io/cppwp) — Historical standard versions
+- [WG21 Link Shortener](https://wg21.link) — Quick access to proposals and papers
+- [C++ Evolution Viewer](https://cppevo.dev) — Feature evolution tracker
+- [C++ Standard Search](https://search.cpp-lang.org) — Fast standard text search
+
+### Tools & Analysis
+
+- [Compiler Explorer](https://godbolt.org/) — Live assembly output and optimization inspection
+- [C++ Insights](https://cppinsights.io/) — Compiler transformations visualized
+- [Quick Bench](https://quick-bench.com/) — Online micro-benchmarking
+- [Include What You Use](https://include-what-you-use.org/) — Header dependency analysis
+- [Perfetto UI](https://ui.perfetto.dev) — Chrome trace viewer for build profiling
+
+### Performance
+
 - [Performance-Aware Programming](https://www.computerenhance.com/) — Casey Muratori's course
+- [Agner Fog's Optimization Manuals](https://agner.org/optimize) — Low-level optimization guides
+- [uops.info](https://uops.info/) — CPU instruction latencies and throughput
+
+### Learning Resources
+
+- [C++ Weekly](https://youtube.com/@cppweekly) — Jason Turner's weekly episodes
+- [C++ Stories](https://www.cppstories.com) — Bartek Filipek's articles
+- [CppCon Talks](https://youtube.com/@CppCon) — Conference presentations
+- [Handmade Hero](https://handmadehero.org) — Casey Muratori's game from scratch
+
+### Compiler Documentation
+
+- [Clang Documentation](https://clang.llvm.org/docs) — LLVM/Clang compiler reference
+- [GCC Online Docs](https://gcc.gnu.org/onlinedocs) — GNU compiler collection
+- [MSVC C++ Docs](https://learn.microsoft.com/cpp) — Microsoft Visual C++
+
+### Tooling
+
+- [Compiler Feature Support](https://cppstat.dev) — C++ feature implementation status
+- [End of Life Dates](https://endoflife.date) — Compiler and library support lifecycles
 
 ## License
 
