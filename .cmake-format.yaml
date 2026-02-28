@@ -1,0 +1,168 @@
+# schema: https://cmake-format.readthedocs.io/en/latest/configuration.html
+# reference: https://github.com/cheshirekow/cmake_format
+
+parse:
+  # specify structure for custom cmake functions
+  additional_commands:
+    foo:
+      flags:
+        - BAR
+        - BAZ
+      kwargs:
+        DEPENDS: "*"
+        HEADERS: "*"
+        SOURCES: "*"
+
+  # override configurations per-command where available
+  override_spec: {}
+
+  # specify variable tags
+  vartags: []
+
+  # specify property tags
+  proptags: []
+
+format:
+  # disable formatting entirely, making cmake-format a no-op
+  disable: false
+
+  # how wide to allow formatted cmake files
+  line_width: 80
+
+  # how many spaces to tab for indent
+  tab_size: 4
+
+  # if true, lines are indented using tab characters (utf-8 0x09) instead of
+  # <tab_size> space characters (utf-8 0x20)
+  use_tabchars: false
+
+  # fractional indentions handling. 'use-space' or 'round-up'
+  fractional_tab_policy: use-space
+
+  # force vertical layout if argument group contains more than this many sub-groups
+  max_subgroups_hwrap: 3
+
+  # force vertical layout if a positional argument group contains more than this many arguments
+  max_pargs_hwrap: 3
+
+  # invalidate the layout and nest if cmdline positional group consumes more than this many lines
+  max_rows_cmdline: 1
+
+  # separate flow control names from their parentheses with a space
+  separate_ctrl_name_with_space: false
+
+  # separate function names from parentheses with a space
+  separate_fn_name_with_space: false
+
+  # dangle the closing parenthesis on its own line if statement is wrapped
+  dangle_parens: false
+
+  # align dangled trailing parenthesis. 'prefix', 'prefix-indent', or 'child'
+  dangle_align: child
+
+  # force reject nested layouts if statement spelling length is smaller than this
+  min_prefix_chars: 4
+
+  # force reject un-nested layouts if statement spelling length exceeds tab width by this
+  max_prefix_chars: 10
+
+  # reject layout if wrapped horizontally but exceeds this many lines
+  max_lines_hwrap: 10
+
+  # line endings to use in the output. 'unix' or 'windows'
+  line_ending: unix
+
+  # format command names consistently as 'lower' or 'upper' case
+  command_case: lower
+
+  # format keywords consistently as 'lower' or 'upper' case
+  keyword_case: UPPER
+
+  # list of command names which should always be wrapped
+  always_wrap: []
+
+  # sortable argument lists will be sorted lexicographically
+  enable_sort: true
+
+  # infer whether or not an argument list is sortable without annotation
+  autosort: true
+
+  # print error, exit with non-zero status code, and write-out nothing if layout is invalid
+  require_valid_layout: false
+
+  # dictionary mapping layout nodes to a list of wrap decisions
+  layout_passes: {}
+
+markup:
+  # character to use for bulleted lists
+  bullet_char: "*"
+
+  # character to use as punctuation after numerals in an enumerated list
+  enum_char: .
+
+  # don't reflow the first comment block in each listfile (preserves copyright)
+  first_comment_is_literal: true
+
+  # don't reflow any comment block which matches this regex pattern
+  literal_comment_pattern: null
+
+  # regex to match preformat fences in comments
+  fence_pattern: '^\s*([`~]{3}[`~]*)(.*)$'
+
+  # regex to match rulers in comments
+  ruler_pattern: '^\s*[^\w\s]{3}.*[^\w\s]{3}$'
+
+  # explicit trailing comment for the preceding argument
+  explicit_trailing_pattern: "#<"
+
+  # minimum consecutive hash characters to not lstrip() them
+  hashruler_min_length: 10
+
+  # insert a space between first hash char and remaining hash chars, normalize length
+  canonicalize_hashrulers: true
+
+  # enable comment markup parsing and reflow
+  enable_markup: false
+
+lint:
+  # list of lint codes to disable
+  disabled_codes: []
+
+  # regex patterns describing valid names
+  function_pattern: "[0-9a-z_]+"
+  macro_pattern: "[0-9A-Z_]+"
+  global_var_pattern: "[A-Z][0-9A-Z_]+"
+  internal_var_pattern: "_[A-Z][0-9A-Z_]+"
+  local_var_pattern: "[a-z][a-z0-9_]+"
+  private_var_pattern: "_[0-9a-z_]+"
+  public_var_pattern: "[A-Z][0-9A-Z_]+"
+  argument_var_pattern: "[a-z][a-z0-9_]+"
+  keyword_pattern: "[A-Z][0-9A-Z_]+"
+
+  # how many conditionals to match within a loop before considering it a parser (C0201)
+  max_conditionals_custom_parser: 2
+
+  # statement spacing requirements
+  min_statement_spacing: 1
+  max_statement_spacing: 2
+
+  # complexity limits
+  max_returns: 6
+  max_branches: 12
+  max_arguments: 5
+  max_localvars: 15
+  max_statements: 50
+
+encode:
+  # emit the unicode byte-order mark (BOM) at the start of the file
+  emit_byteorder_mark: false
+
+  # encoding of the input file
+  input_encoding: utf-8
+
+  # encoding of the output file
+  output_encoding: utf-8
+
+misc:
+  # per-command configuration overrides
+  per_command: {}
