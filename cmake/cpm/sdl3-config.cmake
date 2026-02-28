@@ -1,11 +1,13 @@
-# When update, do not forget to place java impl in sync
+# When updating, do not forget to place java impl in sync
 cpmaddpackage(
     NAME
     SDL3
     GITHUB_REPOSITORY
     libsdl-org/SDL
+    VERSION
+    3.4.2
     GIT_TAG
-    a8589a84226a6202831a3d49ff4edda4acab9acd
+    release-3.4.2
     SYSTEM
     ON
     GIT_SHALLOW
@@ -36,4 +38,6 @@ cpmaddpackage(
     "SDL_RENDER_VULKAN
     OFF"
     "SDL_ASSEMBLY
-    OFF")
+    OFF"
+    # Disable X11 screensaver extension
+    "SDL_X11_XSCRNSAVER OFF")
