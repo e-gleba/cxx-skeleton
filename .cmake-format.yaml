@@ -1,4 +1,4 @@
-# schema: https://cmake-format.readthedocs.io/en/latest/configuration.html
+# info (there is no schema): https://cmake-format.readthedocs.io/en/latest/configuration.html
 # reference: https://github.com/cheshirekow/cmake_format
 
 parse:
