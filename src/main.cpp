@@ -1,51 +1,48 @@
 #include <print>
+#include <version>
 
-namespace color
-{
-static constexpr auto reset = "\033[0m";
-static constexpr auto red   = "\033[38;5;196m";
-static constexpr auto cyan  = "\033[38;5;51m";
-static constexpr auto gold  = "\033[38;5;220m";
-static constexpr auto green = "\033[38;5;46m";
-} // namespace color
-
-/// @brief Main entry point of the program
-/// @return EXIT_SUCCESS on successful execution, EXIT_FAILURE on error
-/// @details Demonstrates the usage of std::print with ANSI color formatting
 int main()
 {
-    try
-    {
-        static constexpr auto cpp_ver = 23;
-        static constexpr auto spec    = "P2693R5";
+#if defined(_WIN32) || defined(_WIN64)
+    constexpr auto os = "Windows";
+#elif defined(__linux__)
+    constexpr auto os = "Linux";
+#elif defined(__APPLE__) && defined(__MACH__)
+    constexpr auto os = "macOS";
+#elif defined(__FreeBSD__)
+    constexpr auto os = "FreeBSD";
+#elif defined(__unix__) || defined(__unix)
+    constexpr auto os = "Unix";
+#else
+    constexpr auto os = "Unknown";
+#endif
 
-        std::print("{}⬤ {}C++{} {}.{}.{} {}ISO/IEC {} {}\n",
-                   color::red,
-                   color::cyan,
-                   color::reset,
-                   2023,
-                   cpp_ver,
-                   0,
-                   color::gold,
-                   spec,
-                   color::green);
+#if defined(__clang__)
+    constexpr auto compiler     = "Clang";
+    constexpr auto compiler_ver = __clang_major__;
+#elif defined(__GNUC__)
+    constexpr auto compiler     = "GCC";
+    constexpr auto compiler_ver = __GNUC__;
+#elif defined(_MSC_VER)
+    constexpr auto compiler     = "MSVC";
+    constexpr auto compiler_ver = _MSC_VER / 100;
+#else
+    constexpr auto compiler     = "Unknown";
+    constexpr auto compiler_ver = 0;
+#endif
 
-        std::print("\n{}⬤ {}Hello, {}World!{}\n",
-                   color::green,
-                   color::gold,
-                   color::cyan,
-                   color::reset);
+    constexpr auto cpp_std = __cplusplus;
 
-        return EXIT_SUCCESS;
-    }
-    catch (const std::exception& e)
-    {
-        std::print(stderr,
-                   "{}* {}Error: {}{}\n",
-                   color::red,
-                   color::reset,
-                   e.what(),
-                   color::reset);
-        return EXIT_FAILURE;
-    }
+    std::print("System Info\n");
+    std::print("  OS: {}\n", os);
+    std::print("  Compiler: {} {}\n", compiler, compiler_ver);
+    std::print("  C++ Standard: {}\n", cpp_std);
+
+#ifdef __cpp_lib_print
+    std::print("  std::print: {}\n", __cpp_lib_print);
+#endif
+
+    std::print("\nHello, World!\n");
+
+    return EXIT_SUCCESS;
 }
