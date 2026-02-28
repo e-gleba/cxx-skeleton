@@ -1,121 +1,131 @@
-# 🚀 Modern C++ Project Template
+# cxx-skeleton
 
 <p align="center">
   <img src=".github/logo.png" alt="cxx-skeleton logo" width="200"/>
 </p>
 
-[![C++ Standard](https://img.shields.io/badge/C%2B%2B-23%2F26-00599C?style=for-the-badge&logo=cplusplus&logoColor=white&labelColor=1C1C1C)](https://isocpp.org/)
-[![CMake](https://img.shields.io/badge/CMake-3.30%2B-064F8C?style=for-the-badge&logo=cmake&logoColor=white&labelColor=1C1C1C)](https://cmake.org)
-[![License](https://img.shields.io/badge/License-AGPL--3.0-FF6B6B?style=for-the-badge&logo=gnu&logoColor=white&labelColor=1C1C1C)](https://www.gnu.org/licenses/agpl-3.0.html)
+<p align="center">
+  <a href="https://isocpp.org/"><img src="https://img.shields.io/badge/C%2B%2B-23%2F26-00599C?style=for-the-badge&logo=cplusplus&logoColor=white&labelColor=1C1C1C" alt="C++ Standard"/></a>
+  <a href="https://cmake.org"><img src="https://img.shields.io/badge/CMake-3.30%2B-064F8C?style=for-the-badge&logo=cmake&logoColor=white&labelColor=1C1C1C" alt="CMake"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&labelColor=1C1C1C" alt="License"/></a>
+</p>
 
-## 🌟 Features
+Modern C++ project template with batteries included. Built for performance-aware development with minimal dependencies and maximum control.
 
-- **🔬 C++23 Ready Presets**: Leverage cutting-edge C++ features
-- **🛡️ Code Quality Tools**: Integrated targets for maintaining high standards
-- **📦 CPM Package Management**: Simplified dependency handling
-- **📄 Doxygen Configuration**: Seamless documentation generation
-- **🧪 CTest Integration**: Straightforward testing setup (doctest + androidTest)
-- **🐳 Docker Support**: Pre-configured containerization
-- **💻 IDE Compatibility**: Works with QtCreator, CLion, Visual Studio, KDevelop
-- **🌐 Cross-Platform**: Linux, Windows, Android, macOS support
-- **🏗️ CMake-Driven**: Streamlined CI/CD configuration
+## Features
 
-## 🚧 Prerequisites
+- C++23/26 support with compiler presets (clang, gcc, msvc)
+- CPM package manager integration
+- Cross-platform builds (Linux, Windows, macOS, Android)
+- Testing with doctest and CTest
+- Code quality tooling (clang-format, clang-tidy, cmake-format)
+- Pre-commit hooks for consistent formatting
+- Doxygen documentation generation
+- Docker configurations for reproducible builds
+- IDE support (CLion, Visual Studio, QtCreator, KDevelop)
 
-- `cmake 3.30.0+`
-- `C++ compiler with C++23 support`
-- `ninja`
-- `(optional) cmake/cfg/*.cmake tools`
+## Prerequisites
 
-## 💾 Installation
-
-### 🍎 macOS
-
-```bash
-# Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Dependencies
-brew install cmake llvm doxygen
 ```
 
-### 🪟 Windows
+cmake 3.30.0+
+C++23-capable compiler (clang 16+, gcc 13+, msvc 19.35+)
+ninja (recommended)
 
-```powershell
-# Chocolatey
-@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
-
-# Dependencies
-choco install cmake llvm visualstudio2019buildtools doxygen
 ```
 
-### 🐧 Linux
-
-#### Ubuntu/Debian
-
-```bash
-sudo apt-get update
-sudo apt-get install cmake g++ doxygen llvm clang-tools python-devel
-```
-
-#### Fedora
-
-```bash
-sudo dnf check-update
-sudo dnf install cmake gcc-c++ doxygen llvm python-devel
-```
-
-## 🛠️ Build & Deployment
-
-### Build Project
+## Quick Start
 
 ```bash
 cmake --preset=gcc .
-cd build/release
-cmake --build . --config gcc
+cmake --build build/gcc
+ctest --test-dir build/gcc --output-on-failure
 ```
 
-### Run Tests
+## Installation
+
+### macOS
 
 ```bash
-cd build/gcc
+brew install cmake llvm doxygen ninja
+```
+
+### Windows
+
+```powershell
+choco install cmake llvm ninja doxygen visualstudio2022buildtools
+```
+
+### Linux
+
+**Ubuntu/Debian:**
+
+```bash
+sudo apt install cmake g++ ninja-build doxygen llvm clang-tools
+```
+
+**Fedora:**
+
+```bash
+sudo dnf install cmake gcc-c++ ninja-build doxygen llvm clang-tools-extra
+```
+
+## Build Configuration
+
+Available presets:
+
+- `gcc` — GCC with optimizations
+- `clang` — Clang with sanitizers
+- `msvc` — MSVC on Windows
+- `android` — Android NDK cross-compilation
+
+```bash
+cmake --preset=<preset_name> .
+cmake --build build/<preset_name> --config Release
+```
+
+## Testing
+
+```bash
+cd build/<preset_name>
 ctest --output-on-failure
 ```
 
-### Docker Build
+## Documentation
 
 ```bash
-docker build -t my-image -f docker/<desired_os>.Dockerfile .
+cmake --build build/<preset_name> --target doxygen
 ```
 
-## 📚 Documentation
+Documentation will be generated in `build/<preset_name>/docs/doxygen/html`.
+
+## Docker
 
 ```bash
-cd build/gcc
-cmake --build . --target doxygen
-
-# Browse documentation
-cd build/gcc/docs/doxygen/html
-python -m http.server 8080
+docker build -t cxx-skeleton -f docker/fedora.Dockerfile .
 ```
 
-## 🚧 Roadmap
+## Code Quality
 
-- [ ] develop
+Format code:
 
-## 📖 Learning Resources
+```bash
+cmake --build build/<preset_name> --target format
+```
 
-### Essential Reading
+Run static analysis:
 
-- **[C++ Weekly](https://www.youtube.com/@cppweekly)** by Jason Turner — Weekly doses of modern C++
-- **[Performance-Aware Programming](https://www.computerenhance.com/)** by Casey Muratori — Hardware-conscious development
-- **[C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/)** by Stroustrup & Sutter — Industry best practices
-- **[Effective Modern C++](https://www.oreilly.com/library/view/effective-modern-c/9781491908419/)** by Scott Meyers — Essential patterns
+```bash
+cmake --build build/<preset_name> --target tidy
+```
 
-### Technical References
+## References
 
-- **[cppreference.com](https://en.cppreference.com/)** — Comprehensive language reference
-- **[C++23 Features](https://en.cppreference.com/w/cpp/23)** — Latest standard capabilities
-- **[Compiler Explorer](https://godbolt.org/)** — Live assembly output analysis
-- **[Quick Bench](https://quick-bench.com/)** — Online micro-benchmarking
-- **[cpp insights](https://cppinsights.io/)** — Online insights on how compiler will understand the code
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/) — Best practices
+- [cppreference.com](https://en.cppreference.com/) — Language reference
+- [Compiler Explorer](https://godbolt.org/) — Assembly inspection
+- [Performance-Aware Programming](https://www.computerenhance.com/) — Casey Muratori's course
+
+## License
+
+MIT — See [LICENSE](LICENSE) for details.
