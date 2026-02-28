@@ -128,4 +128,4 @@ cmake --build build/<preset_name> --target tidy
 
 ## License
 
-MIT — See [LICENSE](LICENSE) for details.
+MIT — See [license](license) for details.
