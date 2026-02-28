@@ -1,42 +1,45 @@
 name: cmake-desktop-multiplatform-workflow
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: ["main"]
     paths:
-      - 'src/**'
-      - 'include/**'
-      - 'cmake/**'
-      - '**/*.cmake'
-      - '**/*.cpp'
-      - '**/*.hpp'
-      - '**/*.c'
-      - '**/*.h'
-      - '**/*.cxx'
-      - '**/*.hxx'
-      - 'CMakeLists.txt'
-      - '**/*CMakeLists*.txt'
-      - '**/*CMakePresets.json'
-      - '.github/workflows/**'
-      - 'android-project/**'
+      - "src/**"
+      - "include/**"
+      - "cmake/**"
+      - "**/*.cmake"
+      - "**/*.cpp"
+      - "**/*.hpp"
+      - "**/*.c"
+      - "**/*.h"
+      - "**/*.cxx"
+      - "**/*.hxx"
+      - "CMakeLists.txt"
+      - "**/*CMakeLists*.txt"
+      - "**/*CMakePresets.json"
+      - ".github/workflows/**"
+      - "android-project/**"
   pull_request:
     branches: ["main"]
     paths:
-      - 'src/**'
-      - 'include/**'
-      - 'cmake/**'
-      - '**/*.cmake'
-      - '**/*.cpp'
-      - '**/*.hpp'
-      - '**/*.c'
-      - '**/*.h'
-      - '**/*.cxx'
-      - '**/*.hxx'
-      - 'CMakeLists.txt'
-      - '**/*CMakeLists*.txt'
-      - '**/CMakePresets.json'
-      - '.github/workflows/**'
-      - 'android-project/**'
+      - "src/**"
+      - "include/**"
+      - "cmake/**"
+      - "**/*.cmake"
+      - "**/*.cpp"
+      - "**/*.hpp"
+      - "**/*.c"
+      - "**/*.h"
+      - "**/*.cxx"
+      - "**/*.hxx"
+      - "CMakeLists.txt"
+      - "**/*CMakeLists*.txt"
+      - "**/CMakePresets.json"
+      - ".github/workflows/**"
+      - "android-project/**"
 
 jobs:
   build-package:
