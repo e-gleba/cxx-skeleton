@@ -20,8 +20,10 @@ cpmaddpackage(
     "SDL_STATIC OFF"
     # Build tooling
     "SDL_CCACHE ON"
+    "SDL_LIBC ON"
     # Kill all test/example/install bloat
     "SDL_TEST_LIBRARY OFF"
+    "SDL_SYSTEM_ICONV OFF"
     "SDL_TESTS OFF"
     "SDL_EXAMPLES OFF"
     "SDL_INSTALL_TESTS OFF"

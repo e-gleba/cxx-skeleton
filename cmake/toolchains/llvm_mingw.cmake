@@ -1,11 +1,9 @@
 cmake_minimum_required(VERSION 3.31)
 
 if(NOT DEFINED DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST)
-    set(download_llvm_mingw_if_not_exist ON CACHE BOOL
-                                                  "auto-download llvm-mingw")
+    set(download_llvm_mingw_if_not_exist ON)
 else()
-    set(download_llvm_mingw_if_not_exist "${DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST}"
-        CACHE BOOL "auto-download llvm-mingw")
+    set(download_llvm_mingw_if_not_exist "${DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST}")
 endif()
 
 set(llvm_mingw_ver "20251216")
@@ -74,24 +72,25 @@ endif()
 
 message(CHECK_PASS "'${toolchain_dir}'")
 
-set(CMAKE_C_COMPILER "${toolchain_dir}/bin/${target_prefix}-clang"
-    CACHE FILEPATH "c compiler")
-set(CMAKE_CXX_COMPILER "${toolchain_dir}/bin/${target_prefix}-clang++"
-    CACHE FILEPATH "c++ compiler")
-set(CMAKE_RC_COMPILER "${toolchain_dir}/bin/${target_prefix}-windres"
-    CACHE FILEPATH "resource compiler")
-set(CMAKE_AR "${toolchain_dir}/bin/llvm-ar" CACHE FILEPATH "archiver")
-set(CMAKE_RANLIB "${toolchain_dir}/bin/llvm-ranlib" CACHE FILEPATH "ranlib")
+# https://github.com/supertuxkart/stk-code/blob/master/cmake/Toolchain-llvm-mingw.cmake
 
-set(CMAKE_FIND_ROOT_PATH "${toolchain_dir}/${target_prefix}")
+set(CMAKE_FIND_ROOT_PATH
+    ${toolchain_dir}/generic-w64-mingw32
+    ${toolchain_dir}/${CMAKE_SYSTEM_PROCESSOR}-w64-mingw32/bin)
+
+set(CMAKE_C_COMPILER "${toolchain_dir}/bin/${target_prefix}-clang")
+set(CMAKE_CXX_COMPILER "${toolchain_dir}/bin/${target_prefix}-clang++")
+set(CMAKE_RC_COMPILER "${toolchain_dir}/bin/${target_prefix}-windres")
+set(CMAKE_AR "${toolchain_dir}/bin/llvm-ar")
+set(CMAKE_RANLIB "${toolchain_dir}/bin/llvm-ranlib")
+
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -Wl,-pdb=")
+set(CMAKE_C_FLAGS -gcodeview)
+set(CMAKE_CXX_FLAGS -gcodeview)
+
+# adjust the default behaviour of the FIND_XXX() commands:
+# search headers and libraries in the target environment, search
+# programs in the host environment
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ALWAYS)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
-
-set_property(GLOBAL PROPERTY JOB_POOLS link_pool=1)
-set(CMAKE_JOB_POOL_LINK link_pool)
-
-set(CMAKE_EXE_LINKER_FLAGS_INIT "-fuse-ld=lld")
-set(CMAKE_SHARED_LINKER_FLAGS_INIT "-fuse-ld=lld")
-set(CMAKE_MODULE_LINKER_FLAGS_INIT "-fuse-ld=lld")

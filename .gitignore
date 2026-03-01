@@ -97,3 +97,6 @@ cache/
 .build/
 
 __pycache__
+
+llvm_mingw/
+.cmake

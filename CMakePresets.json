@@ -3,7 +3,7 @@
     "version": 10,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 30,
+        "minor": 31,
         "patch": 0
     },
     "configurePresets": [
@@ -34,9 +34,13 @@
                 "CMAKE_ANDROID_API": "24"
             },
             "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Android"
+                "type": "inList",
+                "string": "${hostSystemName}",
+                "list": [
+                    "Linux",
+                    "Darwin",
+                    "Windows"
+                ]
             }
         },
         {
@@ -113,7 +117,8 @@
             "inherits": "base",
             "cacheVariables": {
                 "CMAKE_SYSTEM_NAME": "Windows",
-                "DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST": "ON"
+                "DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST": "ON",
+                "CMAKE_TRY_COMPILE_TARGET_TYPE": "STATIC_LIBRARY"
             },
             "condition": {
                 "type": "equals",
