@@ -1,480 +1,482 @@
 {
-  "$schema": "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json",
-  "version": 10,
-  "cmakeMinimumRequired": {
-    "major": 3,
-    "minor": 30,
-    "patch": 0
-  },
-  "configurePresets": [
-    {
-      "name": "base",
-      "displayName": "Base Configuration",
-      "description": "Base preset containing common project configurations and settings",
-      "hidden": true,
-      "generator": "Ninja Multi-Config",
-      "binaryDir": "${sourceDir}/build/${presetName}",
-      "cacheVariables": {
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "CMAKE_COLOR_DIAGNOSTICS": "ON"
-      }
+    "$schema": "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json",
+    "version": 10,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 30,
+        "patch": 0
     },
-    {
-      "name": "android-base",
-      "displayName": "Android Base",
-      "description": "Base preset for Android builds using official NDK",
-      "hidden": true,
-      "inherits": "base",
-      "cacheVariables": {
-        "CMAKE_SYSTEM_NAME": "Android",
-        "CMAKE_ANDROID_NDK": "$env{ANDROID_NDK_HOME}",
-        "CMAKE_ANDROID_STL_TYPE": "c++_shared",
-        "CMAKE_ANDROID_API": "24"
-      },
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Android"
-      }
-    },
-    {
-      "name": "android-arm64",
-      "displayName": "Android (arm64-v8a)",
-      "description": "64-bit ARM Android build",
-      "inherits": "android-base",
-      "cacheVariables": {
-        "CMAKE_ANDROID_ARCH_ABI": "arm64-v8a"
-      }
-    },
-    {
-      "name": "android-arm32",
-      "displayName": "Android (armeabi-v7a)",
-      "description": "32-bit ARM Android build",
-      "inherits": "android-base",
-      "cacheVariables": {
-        "CMAKE_ANDROID_ARCH_ABI": "armeabi-v7a"
-      }
-    },
-    {
-      "name": "android-x64",
-      "displayName": "Android (x86_64)",
-      "description": "64-bit x86 Android build (emulator)",
-      "inherits": "android-base",
-      "cacheVariables": {
-        "CMAKE_ANDROID_ARCH_ABI": "x86_64"
-      }
-    },
-    {
-      "name": "android-x86",
-      "displayName": "Android (x86)",
-      "description": "32-bit x86 Android build (emulator)",
-      "inherits": "android-base",
-      "cacheVariables": {
-        "CMAKE_ANDROID_ARCH_ABI": "x86"
-      }
-    },
-    {
-      "name": "android-universal",
-      "displayName": "Android (Universal)",
-      "description": "Build all ABIs in one go (for AAR or multi-APK)",
-      "inherits": "android-base",
-      "cacheVariables": {
-        "CMAKE_ANDROID_ARCH_ABI": "arm64-v8a;armeabi-v7a;x86_64;x86"
-      }
-    },
-    {
-      "name": "msvc",
-      "displayName": "Microsoft Visual C++",
-      "description": "MSVC toolchain configuration with Windows-specific optimizations",
-      "inherits": "base",
-      "generator": "Visual Studio 17 2022",
-      "architecture": {
-        "value": "x64",
-        "strategy": "set"
-      },
-      "toolset": {
-        "value": "host=x64",
-        "strategy": "set"
-      },
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Windows"
-      }
-    },
-    {
-      "name": "llvm-mingw-base",
-      "displayName": "LLVM-MinGW Base",
-      "description": "Base configuration for LLVM-MinGW cross-compilation",
-      "toolchainFile": "${sourceDir}/cmake/toolchains/llvm_mingw.cmake",
-      "hidden": true,
-      "inherits": "base",
-      "cacheVariables": {
-        "CMAKE_SYSTEM_NAME": "Windows",
-        "DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST": "ON"
-      },
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Linux"
-      }
-    },
-    {
-      "name": "llvm-mingw-i686",
-      "displayName": "LLVM-MinGW Win32 (i686)",
-      "description": "Cross-compile for Windows 32-bit using LLVM-MinGW toolchain",
-      "inherits": "llvm-mingw-base",
-      "cacheVariables": {
-        "CMAKE_SYSTEM_PROCESSOR": "i686"
-      }
-    },
-    {
-      "name": "llvm-mingw-x86_64",
-      "displayName": "LLVM-MinGW Win64 (x86_64)",
-      "description": "Cross-compile for Windows 64-bit using LLVM-MinGW toolchain",
-      "inherits": "llvm-mingw-base",
-      "cacheVariables": {
-        "CMAKE_SYSTEM_PROCESSOR": "x86_64"
-      }
-    },
-    {
-      "name": "clang",
-      "displayName": "LLVM Clang",
-      "description": "Clang toolchain configuration with modern C++ standards and optimizations",
-      "inherits": "base",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++"
-      }
-    },
-    {
-      "name": "gcc",
-      "displayName": "GNU Compiler Collection",
-      "description": "GCC toolchain configuration with GNU-specific optimizations and standards",
-      "inherits": "base",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++"
-      }
-    }
-  ],
-  "buildPresets": [
-    {
-      "name": "android-arm64",
-      "displayName": "Build Android (arm64)",
-      "configurePreset": "android-arm64"
-    },
-    {
-      "name": "android-arm32",
-      "displayName": "Build Android (arm32)",
-      "configurePreset": "android-arm32"
-    },
-    {
-      "name": "android-x64",
-      "displayName": "Build Android (x64)",
-      "configurePreset": "android-x64"
-    },
-    {
-      "name": "android-x86",
-      "displayName": "Build Android (x86)",
-      "configurePreset": "android-x86"
-    },
-    {
-      "name": "android-universal",
-      "displayName": "Build Android (All ABIs)",
-      "configurePreset": "android-universal"
-    },
-    {
-      "name": "msvc",
-      "displayName": "MSVC Build",
-      "configurePreset": "msvc",
-      "configuration": "Release"
-    },
-    {
-      "name": "llvm-mingw-i686",
-      "displayName": "LLVM-MinGW Win32 Build",
-      "configurePreset": "llvm-mingw-i686",
-      "configuration": "Release",
-      "jobs": 1
-    },
-    {
-      "name": "llvm-mingw-x86_64",
-      "displayName": "LLVM-MinGW Win64 Build",
-      "configurePreset": "llvm-mingw-x86_64",
-      "configuration": "Release",
-      "jobs": 1
-    },
-    {
-      "name": "clang",
-      "displayName": "Clang Build",
-      "configurePreset": "clang",
-      "configuration": "Release"
-    },
-    {
-      "name": "gcc",
-      "displayName": "GCC Build",
-      "configurePreset": "gcc",
-      "configuration": "Release"
-    }
-  ],
-  "testPresets": [
-    {
-      "name": "msvc",
-      "displayName": "MSVC Tests",
-      "configurePreset": "msvc",
-      "configuration": "Release",
-      "output": {
-        "outputOnFailure": true,
-        "verbosity": "default"
-      },
-      "execution": {
-        "noTestsAction": "error",
-        "stopOnFailure": false
-      }
-    },
-    {
-      "name": "llvm-mingw-i686",
-      "displayName": "LLVM-MinGW Win32 Tests",
-      "configurePreset": "llvm-mingw-i686",
-      "configuration": "Release",
-      "output": {
-        "outputOnFailure": true,
-        "verbosity": "default"
-      },
-      "execution": {
-        "noTestsAction": "error",
-        "stopOnFailure": false
-      }
-    },
-    {
-      "name": "llvm-mingw-x86_64",
-      "displayName": "LLVM-MinGW Win64 Tests",
-      "configurePreset": "llvm-mingw-x86_64",
-      "configuration": "Release",
-      "output": {
-        "outputOnFailure": true,
-        "verbosity": "default"
-      },
-      "execution": {
-        "noTestsAction": "error",
-        "stopOnFailure": false
-      }
-    },
-    {
-      "name": "clang",
-      "displayName": "Clang Tests",
-      "configurePreset": "clang",
-      "configuration": "Release",
-      "output": {
-        "outputOnFailure": true,
-        "verbosity": "default"
-      },
-      "execution": {
-        "noTestsAction": "error",
-        "stopOnFailure": false
-      }
-    },
-    {
-      "name": "gcc",
-      "displayName": "GCC Tests",
-      "configurePreset": "gcc",
-      "configuration": "Release",
-      "output": {
-        "outputOnFailure": true,
-        "verbosity": "default"
-      },
-      "execution": {
-        "noTestsAction": "error",
-        "stopOnFailure": false
-      }
-    }
-  ],
-  "packagePresets": [
-    {
-      "name": "android-package",
-      "displayName": "Android Package",
-      "configurePreset": "android-universal",
-      "generators": [
-        "ZIP"
-      ]
-    },
-    {
-      "name": "msvc-package",
-      "displayName": "MSVC Package",
-      "configurePreset": "msvc",
-      "generators": [
-        "ZIP"
-      ]
-    },
-    {
-      "name": "llvm-mingw-i686-package",
-      "displayName": "LLVM-MinGW Win32 Package",
-      "configurePreset": "llvm-mingw-i686",
-      "generators": [
-        "TXZ"
-      ]
-    },
-    {
-      "name": "llvm-mingw-x86_64-package",
-      "displayName": "LLVM-MinGW Win64 Package",
-      "configurePreset": "llvm-mingw-x86_64",
-      "generators": [
-        "TXZ"
-      ]
-    },
-    {
-      "name": "clang-package",
-      "displayName": "Clang Package",
-      "configurePreset": "clang",
-      "generators": [
-        "TGZ",
-        "RPM"
-      ]
-    },
-    {
-      "name": "gcc-package",
-      "displayName": "GCC Package",
-      "configurePreset": "gcc",
-      "generators": [
-        "TGZ",
-        "RPM"
-      ]
-    }
-  ],
-  "workflowPresets": [
-    {
-      "name": "android-full",
-      "displayName": "Android Complete Pipeline",
-      "description": "Configure, build, and package for all Android ABIs",
-      "steps": [
+    "configurePresets": [
         {
-          "type": "configure",
-          "name": "android-universal"
+            "name": "base",
+            "displayName": "Base Configuration",
+            "description": "Base preset containing common project configurations and settings",
+            "hidden": true,
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_COLOR_DIAGNOSTICS": "ON",
+                "CPACK_RESOURCE_FILE_LICENSE": "${sourceDir}/license",
+                "CPACK_RESOURCE_FILE_README": "${sourceDir}/readme.md"
+            }
         },
         {
-          "type": "build",
-          "name": "android-universal"
+            "name": "android-base",
+            "displayName": "Android Base",
+            "description": "Base preset for Android builds using official NDK",
+            "hidden": true,
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Android",
+                "CMAKE_ANDROID_NDK": "$env{ANDROID_NDK_HOME}",
+                "CMAKE_ANDROID_STL_TYPE": "c++_shared",
+                "CMAKE_ANDROID_API": "24"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Android"
+            }
         },
         {
-          "type": "package",
-          "name": "android-package"
+            "name": "android-arm64",
+            "displayName": "Android (arm64-v8a)",
+            "description": "64-bit ARM Android build",
+            "inherits": "android-base",
+            "cacheVariables": {
+                "CMAKE_ANDROID_ARCH_ABI": "arm64-v8a"
+            }
+        },
+        {
+            "name": "android-arm32",
+            "displayName": "Android (armeabi-v7a)",
+            "description": "32-bit ARM Android build",
+            "inherits": "android-base",
+            "cacheVariables": {
+                "CMAKE_ANDROID_ARCH_ABI": "armeabi-v7a"
+            }
+        },
+        {
+            "name": "android-x64",
+            "displayName": "Android (x86_64)",
+            "description": "64-bit x86 Android build (emulator)",
+            "inherits": "android-base",
+            "cacheVariables": {
+                "CMAKE_ANDROID_ARCH_ABI": "x86_64"
+            }
+        },
+        {
+            "name": "android-x86",
+            "displayName": "Android (x86)",
+            "description": "32-bit x86 Android build (emulator)",
+            "inherits": "android-base",
+            "cacheVariables": {
+                "CMAKE_ANDROID_ARCH_ABI": "x86"
+            }
+        },
+        {
+            "name": "android-universal",
+            "displayName": "Android (Universal)",
+            "description": "Build all ABIs in one go (for AAR or multi-APK)",
+            "inherits": "android-base",
+            "cacheVariables": {
+                "CMAKE_ANDROID_ARCH_ABI": "arm64-v8a;armeabi-v7a;x86_64;x86"
+            }
+        },
+        {
+            "name": "msvc",
+            "displayName": "Microsoft Visual C++",
+            "description": "MSVC toolchain configuration with Windows-specific optimizations",
+            "inherits": "base",
+            "generator": "Visual Studio 17 2022",
+            "architecture": {
+                "value": "x64",
+                "strategy": "set"
+            },
+            "toolset": {
+                "value": "host=x64",
+                "strategy": "set"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "llvm-mingw-base",
+            "displayName": "LLVM-MinGW Base",
+            "description": "Base configuration for LLVM-MinGW cross-compilation",
+            "toolchainFile": "${sourceDir}/cmake/toolchains/llvm_mingw.cmake",
+            "hidden": true,
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Windows",
+                "DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST": "ON"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "llvm-mingw-i686",
+            "displayName": "LLVM-MinGW Win32 (i686)",
+            "description": "Cross-compile for Windows 32-bit using LLVM-MinGW toolchain",
+            "inherits": "llvm-mingw-base",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_PROCESSOR": "i686"
+            }
+        },
+        {
+            "name": "llvm-mingw-x86_64",
+            "displayName": "LLVM-MinGW Win64 (x86_64)",
+            "description": "Cross-compile for Windows 64-bit using LLVM-MinGW toolchain",
+            "inherits": "llvm-mingw-base",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_PROCESSOR": "x86_64"
+            }
+        },
+        {
+            "name": "clang",
+            "displayName": "LLVM Clang",
+            "description": "Clang toolchain configuration with modern C++ standards and optimizations",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {
+            "name": "gcc",
+            "displayName": "GNU Compiler Collection",
+            "description": "GCC toolchain configuration with GNU-specific optimizations and standards",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            }
         }
-      ]
-    },
-    {
-      "name": "msvc-full",
-      "displayName": "MSVC Complete Pipeline",
-      "description": "Full development workflow using MSVC toolchain",
-      "steps": [
+    ],
+    "buildPresets": [
         {
-          "type": "configure",
-          "name": "msvc"
+            "name": "android-arm64",
+            "displayName": "Build Android (arm64)",
+            "configurePreset": "android-arm64"
         },
         {
-          "type": "build",
-          "name": "msvc"
+            "name": "android-arm32",
+            "displayName": "Build Android (arm32)",
+            "configurePreset": "android-arm32"
         },
         {
-          "type": "test",
-          "name": "msvc"
+            "name": "android-x64",
+            "displayName": "Build Android (x64)",
+            "configurePreset": "android-x64"
         },
         {
-          "type": "package",
-          "name": "msvc-package"
+            "name": "android-x86",
+            "displayName": "Build Android (x86)",
+            "configurePreset": "android-x86"
+        },
+        {
+            "name": "android-universal",
+            "displayName": "Build Android (All ABIs)",
+            "configurePreset": "android-universal"
+        },
+        {
+            "name": "msvc",
+            "displayName": "MSVC Build",
+            "configurePreset": "msvc",
+            "configuration": "Release"
+        },
+        {
+            "name": "llvm-mingw-i686",
+            "displayName": "LLVM-MinGW Win32 Build",
+            "configurePreset": "llvm-mingw-i686",
+            "configuration": "Release",
+            "jobs": 1
+        },
+        {
+            "name": "llvm-mingw-x86_64",
+            "displayName": "LLVM-MinGW Win64 Build",
+            "configurePreset": "llvm-mingw-x86_64",
+            "configuration": "Release",
+            "jobs": 1
+        },
+        {
+            "name": "clang",
+            "displayName": "Clang Build",
+            "configurePreset": "clang",
+            "configuration": "Release"
+        },
+        {
+            "name": "gcc",
+            "displayName": "GCC Build",
+            "configurePreset": "gcc",
+            "configuration": "Release"
         }
-      ]
-    },
-    {
-      "name": "llvm-mingw-i686-full",
-      "displayName": "LLVM-MinGW Win32 Complete Pipeline",
-      "description": "Full cross-compilation workflow for Windows 32-bit",
-      "steps": [
+    ],
+    "testPresets": [
         {
-          "type": "configure",
-          "name": "llvm-mingw-i686"
+            "name": "msvc",
+            "displayName": "MSVC Tests",
+            "configurePreset": "msvc",
+            "configuration": "Release",
+            "output": {
+                "outputOnFailure": true,
+                "verbosity": "default"
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
         },
         {
-          "type": "build",
-          "name": "llvm-mingw-i686"
+            "name": "llvm-mingw-i686",
+            "displayName": "LLVM-MinGW Win32 Tests",
+            "configurePreset": "llvm-mingw-i686",
+            "configuration": "Release",
+            "output": {
+                "outputOnFailure": true,
+                "verbosity": "default"
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
         },
         {
-          "type": "test",
-          "name": "llvm-mingw-i686"
+            "name": "llvm-mingw-x86_64",
+            "displayName": "LLVM-MinGW Win64 Tests",
+            "configurePreset": "llvm-mingw-x86_64",
+            "configuration": "Release",
+            "output": {
+                "outputOnFailure": true,
+                "verbosity": "default"
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
         },
         {
-          "type": "package",
-          "name": "llvm-mingw-i686-package"
+            "name": "clang",
+            "displayName": "Clang Tests",
+            "configurePreset": "clang",
+            "configuration": "Release",
+            "output": {
+                "outputOnFailure": true,
+                "verbosity": "default"
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
+        },
+        {
+            "name": "gcc",
+            "displayName": "GCC Tests",
+            "configurePreset": "gcc",
+            "configuration": "Release",
+            "output": {
+                "outputOnFailure": true,
+                "verbosity": "default"
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": false
+            }
         }
-      ]
-    },
-    {
-      "name": "llvm-mingw-x86_64-full",
-      "displayName": "LLVM-MinGW Win64 Complete Pipeline",
-      "description": "Full cross-compilation workflow for Windows 64-bit",
-      "steps": [
+    ],
+    "packagePresets": [
         {
-          "type": "configure",
-          "name": "llvm-mingw-x86_64"
+            "name": "android-package",
+            "displayName": "Android Package",
+            "configurePreset": "android-universal",
+            "generators": [
+                "ZIP"
+            ]
         },
         {
-          "type": "build",
-          "name": "llvm-mingw-x86_64"
+            "name": "msvc-package",
+            "displayName": "MSVC Package",
+            "configurePreset": "msvc",
+            "generators": [
+                "ZIP"
+            ]
         },
         {
-          "type": "test",
-          "name": "llvm-mingw-x86_64"
+            "name": "llvm-mingw-i686-package",
+            "displayName": "LLVM-MinGW Win32 Package",
+            "configurePreset": "llvm-mingw-i686",
+            "generators": [
+                "TXZ"
+            ]
         },
         {
-          "type": "package",
-          "name": "llvm-mingw-x86_64-package"
+            "name": "llvm-mingw-x86_64-package",
+            "displayName": "LLVM-MinGW Win64 Package",
+            "configurePreset": "llvm-mingw-x86_64",
+            "generators": [
+                "TXZ"
+            ]
+        },
+        {
+            "name": "clang-package",
+            "displayName": "Clang Package",
+            "configurePreset": "clang",
+            "generators": [
+                "TGZ",
+                "RPM"
+            ]
+        },
+        {
+            "name": "gcc-package",
+            "displayName": "GCC Package",
+            "configurePreset": "gcc",
+            "generators": [
+                "TGZ",
+                "RPM"
+            ]
         }
-      ]
-    },
-    {
-      "name": "clang-full",
-      "displayName": "Clang Complete Pipeline",
-      "description": "Full development workflow using Clang toolchain",
-      "steps": [
+    ],
+    "workflowPresets": [
         {
-          "type": "configure",
-          "name": "clang"
+            "name": "android-full",
+            "displayName": "Android Complete Pipeline",
+            "description": "Configure, build, and package for all Android ABIs",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "android-universal"
+                },
+                {
+                    "type": "build",
+                    "name": "android-universal"
+                },
+                {
+                    "type": "package",
+                    "name": "android-package"
+                }
+            ]
         },
         {
-          "type": "build",
-          "name": "clang"
+            "name": "msvc-full",
+            "displayName": "MSVC Complete Pipeline",
+            "description": "Full development workflow using MSVC toolchain",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "msvc"
+                },
+                {
+                    "type": "build",
+                    "name": "msvc"
+                },
+                {
+                    "type": "test",
+                    "name": "msvc"
+                },
+                {
+                    "type": "package",
+                    "name": "msvc-package"
+                }
+            ]
         },
         {
-          "type": "test",
-          "name": "clang"
+            "name": "llvm-mingw-i686-full",
+            "displayName": "LLVM-MinGW Win32 Complete Pipeline",
+            "description": "Full cross-compilation workflow for Windows 32-bit",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "llvm-mingw-i686"
+                },
+                {
+                    "type": "build",
+                    "name": "llvm-mingw-i686"
+                },
+                {
+                    "type": "test",
+                    "name": "llvm-mingw-i686"
+                },
+                {
+                    "type": "package",
+                    "name": "llvm-mingw-i686-package"
+                }
+            ]
         },
         {
-          "type": "package",
-          "name": "clang-package"
+            "name": "llvm-mingw-x86_64-full",
+            "displayName": "LLVM-MinGW Win64 Complete Pipeline",
+            "description": "Full cross-compilation workflow for Windows 64-bit",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "llvm-mingw-x86_64"
+                },
+                {
+                    "type": "build",
+                    "name": "llvm-mingw-x86_64"
+                },
+                {
+                    "type": "test",
+                    "name": "llvm-mingw-x86_64"
+                },
+                {
+                    "type": "package",
+                    "name": "llvm-mingw-x86_64-package"
+                }
+            ]
+        },
+        {
+            "name": "clang-full",
+            "displayName": "Clang Complete Pipeline",
+            "description": "Full development workflow using Clang toolchain",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "clang"
+                },
+                {
+                    "type": "build",
+                    "name": "clang"
+                },
+                {
+                    "type": "test",
+                    "name": "clang"
+                },
+                {
+                    "type": "package",
+                    "name": "clang-package"
+                }
+            ]
+        },
+        {
+            "name": "gcc-full",
+            "displayName": "GCC Complete Pipeline",
+            "description": "Full development workflow using GCC toolchain",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "gcc"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc"
+                },
+                {
+                    "type": "package",
+                    "name": "gcc-package"
+                }
+            ]
         }
-      ]
-    },
-    {
-      "name": "gcc-full",
-      "displayName": "GCC Complete Pipeline",
-      "description": "Full development workflow using GCC toolchain",
-      "steps": [
-        {
-          "type": "configure",
-          "name": "gcc"
-        },
-        {
-          "type": "build",
-          "name": "gcc"
-        },
-        {
-          "type": "test",
-          "name": "gcc"
-        },
-        {
-          "type": "package",
-          "name": "gcc-package"
-        }
-      ]
-    }
-  ]
+    ]
 }

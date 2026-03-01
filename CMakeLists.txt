@@ -34,6 +34,11 @@ find_package(doxygen CONFIG REQUIRED)
 
 find_package(cpm CONFIG REQUIRED)
 
+set(CPACK_SYSTEM_NAME "${CPACK_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
+
+install(FILES "${CPACK_RESOURCE_FILE_LICENSE}" "${CPACK_RESOURCE_FILE_README}"
+        DESTINATION . COMPONENT documentation)
+
 add_subdirectory(src)
 
 include(CTest)
