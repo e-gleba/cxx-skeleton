@@ -24,10 +24,4 @@ if(TARGET SDL3::SDL3-shared)
                            CXX_EXTENSIONS NO)
 
     install(TARGETS sdl_app COMPONENT runtime)
-
-    cpack_add_component(
-        runtime
-        DISPLAY_NAME "runtime"
-        DESCRIPTION "template-cpp-project main (runtime component)"
-        REQUIRED)
 endif()

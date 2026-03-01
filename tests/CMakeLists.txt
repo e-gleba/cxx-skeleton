@@ -40,6 +40,8 @@ target_compile_definitions(
     )
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux|Windows|Darwin")
-    include(doctest)
-    doctest_discover_tests(tests)
+    if(NOT CMAKE_CROSSCOMPILING)
+        include(doctest)
+        doctest_discover_tests(tests)
+    endif()
 endif()

@@ -73,10 +73,3 @@ install(FILES "${PROJECT_ICON_FILE}"
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.desktop"
         DESTINATION "share/applications")
-
-include(CPack)
-cpack_add_component(
-    documentation
-    DISPLAY_NAME "Documentation"
-    DESCRIPTION "Project README and license"
-    GROUP "Documentation")
