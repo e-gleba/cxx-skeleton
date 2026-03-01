@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.31)
 
 if(NOT DEFINED DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST)
     set(download_llvm_mingw_if_not_exist ON CACHE BOOL
@@ -88,3 +88,10 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+
+set_property(GLOBAL PROPERTY JOB_POOLS link_pool=1)
+set(CMAKE_JOB_POOL_LINK link_pool)
+
+set(CMAKE_EXE_LINKER_FLAGS_INIT "-fuse-ld=lld")
+set(CMAKE_SHARED_LINKER_FLAGS_INIT "-fuse-ld=lld")
+set(CMAKE_MODULE_LINKER_FLAGS_INIT "-fuse-ld=lld")

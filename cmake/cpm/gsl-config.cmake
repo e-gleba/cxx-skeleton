@@ -3,6 +3,8 @@ cpmaddpackage(
     gsl
     GITHUB_REPOSITORY
     microsoft/GSL
+    EXCLUDE_FROM_ALL
+    ON
     GIT_TAG
     v4.2.1
     OPTIONS

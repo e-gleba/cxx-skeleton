@@ -5,6 +5,8 @@ cpmaddpackage(
     1.92.6
     GITHUB_REPOSITORY
     ocornut/imgui
+    EXCLUDE_FROM_ALL
+    ON
     DOWNLOAD_ONLY
     TRUE)
 
@@ -42,3 +44,4 @@ target_sources(
             ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp)
 
 target_link_libraries(imgui_sdl3_opengl3 PUBLIC imgui SDL3::SDL3)
+

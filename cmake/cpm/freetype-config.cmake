@@ -3,6 +3,8 @@ cpmaddpackage(
     freetype2_upstream
     GITHUB_REPOSITORY
     freetype/freetype
+    EXCLUDE_FROM_ALL
+    ON
     GIT_TAG
     VER-2-14-1
     OPTIONS
@@ -13,3 +15,4 @@ cpmaddpackage(
     "FT_WITH_ZLIB OFF"
     EXCLUDE_FROM_ALL
     YES)
+

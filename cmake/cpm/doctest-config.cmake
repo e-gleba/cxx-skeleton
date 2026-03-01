@@ -9,6 +9,8 @@ cpmaddpackage(
     ON
     GIT_SHALLOW
     ON
+    EXCLUDE_FROM_ALL
+    ON
     OPTIONS
     "DOCTEST_WITH_TESTS OFF"
     "DOCTEST_WITH_MAIN_IN_STATIC_LIB OFF"

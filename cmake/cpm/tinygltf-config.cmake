@@ -1,11 +1,17 @@
 cpmaddpackage(
-  NAME tinygltf
-  GITHUB_REPOSITORY syoyo/tinygltf
-  GIT_TAG v2.9.7
-  SYSTEM ON
-  GIT_SHALLOW ON
-  OPTIONS
+    NAME
+    tinygltf
+    GITHUB_REPOSITORY
+    syoyo/tinygltf
+    GIT_TAG
+    v2.9.7
+    SYSTEM
+    ON
+    GIT_SHALLOW
+    ON
+    EXCLUDE_FROM_ALL
+    ON
+    OPTIONS
     "TINYGLTF_HEADER_ONLY ON"
     "TINYGLTF_INSTALL OFF"
-    "TINYGLTF_BUILD_LOADER_EXAMPLE OFF"
-)
+    "TINYGLTF_BUILD_LOADER_EXAMPLE OFF")

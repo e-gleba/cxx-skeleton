@@ -1,10 +1,17 @@
 cpmaddpackage(
-  NAME pffft
-  GITHUB_REPOSITORY marton78/pffft
-  GIT_TAG master
-  SYSTEM ON
-  GIT_SHALLOW ON
-  OPTIONS
+    NAME
+    pffft
+    GITHUB_REPOSITORY
+    marton78/pffft
+    GIT_TAG
+    master
+    SYSTEM
+    ON
+    GIT_SHALLOW
+    ON
+    EXCLUDE_FROM_ALL
+    ON
+    OPTIONS
     "PFFFT_USE_TYPE_FLOAT ON"
     "PFFFT_USE_TYPE_DOUBLE OFF"
     "PFFFT_USE_SIMD ON"
@@ -19,40 +26,53 @@ cpmaddpackage(
     "PFFFT_USE_BENCH_MKL OFF"
     "PFFFT_USE_FFTPACK OFF"
     "PFFFT_USE_DEBUG_ASAN OFF"
-    "PFFFT_DISABLE_LINK_WITH_M OFF"
-)
+    "PFFFT_DISABLE_LINK_WITH_M OFF")
 
 cpmaddpackage(
-  NAME mysofa
-  GITHUB_REPOSITORY hoene/libmysofa
-  GIT_TAG v1.3.2
-  SYSTEM ON
-  GIT_SHALLOW ON
-  OPTIONS
+    NAME
+    mysofa
+    GITHUB_REPOSITORY
+    hoene/libmysofa
+    GIT_TAG
+    v1.3.2
+    SYSTEM
+    ON
+    GIT_SHALLOW
+    ON
+    OPTIONS
     "BUILD_TESTS OFF"
-    "BUILD_SHARED_LIBS OFF"
-)
+    "BUILD_SHARED_LIBS OFF")
 
 cpmaddpackage(
-  NAME flatbuffers
-  GITHUB_REPOSITORY google/flatbuffers
-  GIT_TAG v25.9.23
-  SYSTEM ON
-  GIT_SHALLOW ON
-  OPTIONS
+    NAME
+    flatbuffers
+    GITHUB_REPOSITORY
+    google/flatbuffers
+    GIT_TAG
+    v25.9.23
+    SYSTEM
+    ON
+    GIT_SHALLOW
+    ON
+    OPTIONS
     "FLATBUFFERS_BUILD_TESTS OFF"
     "FLATBUFFERS_BUILD_FLATC OFF"
-    "FLATBUFFERS_BUILD_FLATHASH OFF"
-)
+    "FLATBUFFERS_BUILD_FLATHASH OFF")
 
 cpmaddpackage(
-  NAME steamaudio
-  GITHUB_REPOSITORY ValveSoftware/steam-audio
-  GIT_TAG v4.8.0
-  SYSTEM ON
-  GIT_SHALLOW ON
-  SOURCE_SUBDIR core
-  OPTIONS
+    NAME
+    steamaudio
+    GITHUB_REPOSITORY
+    ValveSoftware/steam-audio
+    GIT_TAG
+    v4.8.0
+    SYSTEM
+    ON
+    GIT_SHALLOW
+    ON
+    SOURCE_SUBDIR
+    core
+    OPTIONS
     "BUILD_SHARED_LIBS OFF"
     "STEAMAUDIO_ENABLE_OCTAVE_BANDS OFF"
     "STEAMAUDIO_BUILD_TESTS OFF"
@@ -67,8 +87,7 @@ cpmaddpackage(
     "STEAMAUDIO_ENABLE_EMBREE OFF"
     "STEAMAUDIO_ENABLE_FFTS OFF"
     "STEAMAUDIO_ENABLE_RADEONRAYS OFF"
-    "STEAMAUDIO_ENABLE_TRUEAUDIONEXT OFF"
-)
+    "STEAMAUDIO_ENABLE_TRUEAUDIONEXT OFF")
 
 if(steamaudio_ADDED)
     message(FATAL_ERROR "todo: fix module path after fetch")

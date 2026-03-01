@@ -9,6 +9,8 @@ cpmaddpackage(
     ON
     GIT_SHALLOW
     ON
+    EXCLUDE_FROM_ALL
+    ON
     OPTIONS
     # build config
     "TRACY_STATIC ON"
@@ -56,6 +58,8 @@ cpmaddpackage(
     )
 
 if(${tracy_ADDED})
+    include(ExternalProject)
+
     externalproject_add(
         tracy_profiler
         SOURCE_DIR ${tracy_SOURCE_DIR}/profiler
@@ -67,6 +71,6 @@ if(${tracy_ADDED})
         BUILD_COMMAND
             ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release --parallel
         INSTALL_COMMAND ""
-        BUILD_ALWAYS ON
+        BUILD_ALWAYS OFF
         USES_TERMINAL_BUILD ON)
 endif()

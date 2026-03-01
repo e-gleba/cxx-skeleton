@@ -3,6 +3,8 @@ cpmaddpackage(
     entt
     GITHUB_REPOSITORY
     skypjack/entt
+    EXCLUDE_FROM_ALL
+    ON
     GIT_TAG
     v3.16.0
     OPTIONS

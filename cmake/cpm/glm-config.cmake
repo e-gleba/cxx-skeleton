@@ -3,6 +3,8 @@ cpmaddpackage(
     glm
     GITHUB_REPOSITORY
     g-truc/glm
+    EXCLUDE_FROM_ALL
+    ON
     GIT_TAG
     1.0.3
     OPTIONS
@@ -10,3 +12,4 @@ cpmaddpackage(
     "GLM_BUILD_INSTALL OFF"
     "GLM_ENABLE_CXX_20 ON"
     "GLM_ENABLE_LANG_EXTENSIONS ON")
+

@@ -5,6 +5,8 @@ cpmaddpackage(
     https://github.com/lua/lua.git
     VERSION
     5.4.7
+    EXCLUDE_FROM_ALL
+    ON
     DOWNLOAD_ONLY
     YES)
 
