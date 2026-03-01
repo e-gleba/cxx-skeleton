@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.31)
 
 set(CMAKE_SYSTEM_NAME "Windows")
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
 if(NOT CMAKE_SYSTEM_PROCESSOR)
     set(CMAKE_SYSTEM_PROCESSOR "x86_64")
 endif()
@@ -41,7 +43,7 @@ if(NOT lm_triple)
     message(FATAL_ERROR "Unsupported target: ${CMAKE_SYSTEM_PROCESSOR}")
 endif()
 
-set(lm_root "${CMAKE_SOURCE_DIR}/llvm_mingw")
+set(lm_root "${CMAKE_CURRENT_LIST_DIR}/llvm_mingw")
 
 # ─── Auto-download llvm-mingw ─────────────────────────────────────
 if(NOT EXISTS "${lm_root}/bin/clang")
@@ -151,39 +153,31 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
-# ─── PDB debug info (CodeView format) ─────────────────────────────
-# llvm-mingw defaults to DWARF. To produce PDB files readable by
-# WinDbg / Visual Studio, switch the debug-info format to CodeView
-# and instruct LLD to emit .pdb alongside every PE binary.
-#
-# -gcodeview  Selects CodeView format. Only emits data when -g is
-#             also active (CMake adds -g for Debug/RelWithDebInfo).
-#             Release builds produce no debug info regardless.
-# -Wl,--pdb= Tells lld-link to write a .pdb next to the output
-#             binary. Empty value after '=' auto-names the PDB.
-#
-# Known limitation: Microsoft debuggers assume the MSVC C++ ABI;
-# MinGW uses the Itanium ABI, so some C++ constructs may not
-# display correctly in those debuggers.
-# Ref: https://github.com/mstorsjo/llvm-mingw#pdb-support
-# ───────────────────────────────────────────────────────────────────
-set(CMAKE_C_FLAGS_INIT "-gcodeview")
-set(CMAKE_CXX_FLAGS_INIT "-gcodeview")
+# ─── PDB debug info (CodeView) ────────────────────────────────────
+# -gcodeview only produces output when -g is active (Debug,
+# RelWithDebInfo). Restrict to those configs so Release build
+# logs stay clean.
+set(CMAKE_C_FLAGS_DEBUG_INIT "-gcodeview")
+set(CMAKE_C_FLAGS_RELWITHDEBINFO_INIT "-gcodeview")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-gcodeview")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT "-gcodeview")
 
-# ─── Static runtime + PDB linker flags ────────────────────────────
-# llvm-mingw ships compiler-rt + libc++ instead of libgcc + libstdc++.
-# Clang in MinGW mode accepts -static-libgcc / -static-libstdc++ as
-# compatibility shims that map to:
-#   -static-libgcc    → statically link compiler-rt + libunwind
-#   -static-libstdc++ → statically link libc++ + libc++abi
-# This avoids distributing those DLLs alongside every binary.
-#
-# _INIT variants are mandatory in toolchain files — they append to
-# CMake's defaults instead of overwriting user-supplied flags.
-# Ref: https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_FLAGS_INIT.html
-# ───────────────────────────────────────────────────────────────────
-set(CMAKE_EXE_LINKER_FLAGS_INIT "-static-libgcc -static-libstdc++ -Wl,--pdb=")
-set(CMAKE_SHARED_LINKER_FLAGS_INIT
-    "-static-libgcc -static-libstdc++ -Wl,--pdb=")
-set(CMAKE_MODULE_LINKER_FLAGS_INIT
-    "-static-libgcc -static-libstdc++ -Wl,--pdb=")
+# ─── Static runtime (ALL configs) ─────────────────────────────────
+set(CMAKE_EXE_LINKER_FLAGS_INIT "-static-libgcc -static-libstdc++")
+set(CMAKE_SHARED_LINKER_FLAGS_INIT "-static-libgcc -static-libstdc++")
+set(CMAKE_MODULE_LINKER_FLAGS_INIT "-static-libgcc -static-libstdc++")
+
+# ─── PDB generation (debug configs ONLY) ──────────────────────────
+# --pdb= tells LLD to emit a .pdb next to the output binary.
+# Only useful when -gcodeview is active. In Release, this flag
+# forces LLD to walk the entire static-linked symbol table
+# (compiler-rt + libc++ + libc++abi + libunwind + your code)
+# to produce a nearly empty PDB — which takes minutes for no value.
+set(CMAKE_EXE_LINKER_FLAGS_DEBUG_INIT "-Wl,--pdb=")
+set(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO_INIT "-Wl,--pdb=")
+
+set(CMAKE_SHARED_LINKER_FLAGS_DEBUG_INIT "-Wl,--pdb=")
+set(CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO_INIT "-Wl,--pdb=")
+
+set(CMAKE_MODULE_LINKER_FLAGS_DEBUG_INIT "-Wl,--pdb=")
+set(CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO_INIT "-Wl,--pdb=")

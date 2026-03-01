@@ -14,6 +14,8 @@ cpmaddpackage(
     TRUE
     EXCLUDE_FROM_ALL
     TRUE
+    GIT_PROGRESS
+    TRUE
     OPTIONS
     # Core library config - fast shared build
     "SDL_STATIC
