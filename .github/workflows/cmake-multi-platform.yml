@@ -100,11 +100,6 @@ jobs:
             # cmake --workflow runs configure → build → test → package
             # in sequence as defined in the workflow preset.
             - name: CMake workflow (${{ matrix.preset }})
-              env:
-                  # Let Ninja use all available cores. GitHub-hosted
-                  # runners expose the actual core count, so this is
-                  # safe and portable — no hardcoded "8".
-                  CMAKE_BUILD_PARALLEL_LEVEL: ${{ runner.os == 'Linux' && '$(nproc)' || '' }}
               run: cmake --workflow --preset ${{ matrix.preset }}
 
             # ── Upload artifacts ──────────────────────────────────
@@ -172,8 +167,6 @@ jobs:
 
             # Workflow preset runs configure → build → package (no test).
             - name: CMake workflow (${{ matrix.preset }})
-              env:
-                  CMAKE_BUILD_PARALLEL_LEVEL: "0"
               run: cmake --workflow --preset ${{ matrix.preset }}
 
             - name: Upload TXZ artifacts
@@ -209,7 +202,6 @@ jobs:
                 -Dorg.gradle.daemon=false
                 -Dorg.gradle.parallel=true
                 -Dorg.gradle.configureondemand=true
-            CMAKE_BUILD_PARALLEL_LEVEL: "0"
 
         steps:
             - uses: actions/checkout@v4
