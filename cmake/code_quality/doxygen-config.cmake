@@ -15,8 +15,8 @@ if(DOXYGEN_FOUND)
     # (especially with CLANG_ASSISTED_PARSING). Skip entirely.
     if(NOT CMAKE_CROSSCOMPILING)
         set(DOXYGEN_CLANG_ASSISTED_PARSING YES)
-        set(DOXYGEN_CLANG_OPTIONS "-std=c++23;-stdlib=libc++")
     endif()
+    set(DOXYGEN_CLANG_OPTIONS "-std=c++23 -stdlib=libc++")
     set(DOXYGEN_CPP_CLI_SUPPORT YES)
     set(DOXYGEN_MARKDOWN_SUPPORT YES)
 
@@ -46,19 +46,24 @@ if(DOXYGEN_FOUND)
         ALL
         COMMENT "Building API documentation")
 
+    # Trailing / on DIRECTORY source: installs CONTENTS of the
+    # directory, not the directory itself. Without it, you get
+    # <prefix>/share/doc/<name>/generated-docs/html/ instead of
+    # <prefix>/share/doc/<name>/html/.
+    # Ref: https://cmake.org/cmake/help/latest/command/install.html#directory
+    include(GNUInstallDirs)
     install(
-        DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/generated-docs"
-        DESTINATION "share/doc/${PROJECT_NAME}"
-        COMPONENT documentation)
+        DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/generated-docs/"
+        DESTINATION "${CMAKE_INSTALL_DOCDIR}"
+        COMPONENT documentation
+        OPTIONAL)
 else()
     message(
-        WARNING "Doxygen not found - documentation targets disabled\n"
-                "Installation commands:\n"
-                "\n"
-                "  Fedora:    sudo dnf install doxygen graphviz\n"
-                "  Ubuntu:    sudo apt install doxygen doxygen-latex\n"
-                "  macOS:     brew install doxygen\n"
-                "  Windows:   choco install doxygen.install\n"
-                "\n"
-                "Regenerate project after installation")
+        NOTICE
+        "Doxygen not found — documentation target disabled\n"
+        "Install with:\n"
+        "  Fedora:  sudo dnf install doxygen graphviz\n"
+        "  Ubuntu:  sudo apt install doxygen\n"
+        "  macOS:   brew install doxygen\n"
+        "  Windows: choco install doxygen.install")
 endif()
