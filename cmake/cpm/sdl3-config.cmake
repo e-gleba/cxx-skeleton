@@ -25,11 +25,6 @@ cpmaddpackage(
     # Performance optimizations
     "SDL_CCACHE
     ON"
-    "SDL_CAMERA OFF"
-    "SDL_SENSOR OFF"
-    "SDL_HAPTIC OFF"
-    "SDL_JOYSTICK OFF"
-    "SDL_HIDAPI OFF"
     "CMAKE_BUILD_TYPE RelWithDebInfo"
     # Disable unnecessary features for speed
     "SDL_TEST_LIBRARY OFF"
