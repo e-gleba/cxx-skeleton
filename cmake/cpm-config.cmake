@@ -29,4 +29,5 @@ endif()
 find_package(doctest CONFIG REQUIRED)
 find_package(sdl3 CONFIG REQUIRED)
 find_package(gsl CONFIG REQUIRED)
-find_package(yaml-cpp CONFIG REQUIRED)
+
+find_package(tracy CONFIG REQUIRED)

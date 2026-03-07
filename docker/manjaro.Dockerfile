@@ -1,29 +1,33 @@
-# Use a lightweight base image
-FROM manjarolinux/base:latest
+# syntax=docker/dockerfile:1
+FROM manjarolinux/base:latest AS build
 
-# Set the working directory
+LABEL maintainer="e-gleba" \
+    description="C/C++ build environment (GCC + Clang, CMake, Ninja) on Manjaro"
+
 WORKDIR /app
 
-# Install essential C++ development tools, documentation, and workflow tools
-RUN pacman -Syu --noconfirm && \
+# ── System dependencies ──────────────────────────────────────────────
+# base-devel provides gcc, make, glibc headers (pthread.h, dlfcn.h)
+# SDL3 Wayland deps included to prevent CheckPTHREAD/CheckDLOPEN fatals
+RUN --mount=type=cache,target=/var/cache/pacman/pkg \
+    pacman -Syu --noconfirm && \
     pacman -S --needed --noconfirm \
     base-devel \
     clang \
-    clang-doc \
-    doxygen \
     cmake \
-    git \
     ninja \
-    && pacman -Scc --noconfirm
+    git \
+    doxygen \
+    wayland \
+    libxkbcommon \
+    mesa \
+    pkgconf \
+    && yes | pacman -Scc
 
-# Copy the source code into the container
-COPY . /app
+COPY . .
 
-# Validate CMake preset early to fail fast on configuration errors
-RUN cmake --preset=gcc-full --check-presets
+# ── Validate presets are readable (fail fast) ────────────────────────
+RUN cmake --list-presets 2>&1 | head -20
 
-# Example: Run a specific CMake workflow preset
 ENTRYPOINT ["cmake", "--workflow", "--preset=gcc-full"]
 
-# Or, keep an interactive shell for development
-# CMD ["/bin/bash"]
