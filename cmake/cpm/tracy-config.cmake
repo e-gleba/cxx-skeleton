@@ -19,6 +19,10 @@ if(NOT tracy_ADDED)
     return()
 endif()
 
+if(NOT BUILD_PROFILER)
+    return()
+endif()
+
 # ── Tracy profiler GUI (host tool) ──────────────────────────────────
 include(GNUInstallDirs)
 include(ExternalProject)
