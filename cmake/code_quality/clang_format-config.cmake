@@ -1,87 +1,133 @@
 # ─── clang-format ──────────────────────────────────────────────────
-# clang-format is a host tool that reformats source files in-place.
-# Unlike clang-tidy or clang-doc, it does NOT parse code against a
-# sysroot, so it works correctly even when cross-compiling.
-# No cross-compilation guard needed.
-# ───────────────────────────────────────────────────────────────────
+# Host-only text reformatter. No sysroot interaction, no
+# compilation database — works identically when cross-compiling.
 
-find_program(clang_format_exe NAMES clang-format)
+find_program(
+    clang_format_exe
+    NAMES clang-format
+    DOC "clang-format source reformatter" OPTIONAL)
 
 if(NOT clang_format_exe)
     message(
         NOTICE
-        "clang-format not found — 'clang_format' target will not be available.\n"
-        "Install:\n"
-        "  Fedora:  sudo dnf install clang-tools-extra\n"
-        "  Ubuntu:  sudo apt install clang-format\n"
-        "  macOS:   brew install llvm\n"
-        "  Windows: choco install llvm")
+        "clang-format not found -- format targets disabled\n"
+        "  fedora:  sudo dnf install clang-tools-extra\n"
+        "  ubuntu:  sudo apt install clang-format\n"
+        "  macos:   brew install llvm\n"
+        "  windows: choco install llvm")
     return()
 endif()
 
-# ── Collect source files ───────────────────────────────────────
-# The original used "${PROJECT_SOURCE_DIR}/**/*.{cpp,cxx,hpp,hxx}"
-# which CANNOT work:
-#   1. CMake's COMMAND does not invoke a shell — globs are passed
-#      as literal strings to the executable.
-#   2. clang-format does not expand shell globs internally.
-#   3. Brace expansion {cpp,cxx} is a bash feature, not even a
-#      POSIX glob.
-#
-# file(GLOB_RECURSE) at configure time is acceptable here because
-# this is a developer tooling target, not a compilation target.
-# Worst case if a new file is added: run cmake --build --target
-# clang_format after reconfiguring.
-#
-# CONFIGURE_DEPENDS makes Ninja/Makefiles re-glob on every build
-# so new files are picked up without manual reconfigure.
-#
-# Adjust source directories to match your project layout.
+# ── Verify .clang-format exists ────────────────────────────────
+if(NOT EXISTS "${PROJECT_SOURCE_DIR}/.clang-format")
+    message(NOTICE "no .clang-format at project root -- "
+            "clang-format will use LLVM defaults")
+endif()
+
+# ── Collect sources ────────────────────────────────────────────
+# GLOB_RECURSE is acceptable for developer tooling targets —
+# missing a new file until reconfigure is harmless for formatting.
+# CONFIGURE_DEPENDS re-globs on every build (Ninja/Makefiles).
+set(format_scan_dirs "${PROJECT_SOURCE_DIR}/src"
+                     "${PROJECT_SOURCE_DIR}/include")
+
+set(format_sources "")
+foreach(dir IN LISTS format_scan_dirs)
+    if(IS_DIRECTORY "${dir}")
+        file(
+            GLOB_RECURSE
+            dir_sources
+            CONFIGURE_DEPENDS
+            "${dir}/*.h"
+            "${dir}/*.hpp"
+            "${dir}/*.hxx"
+            "${dir}/*.c"
+            "${dir}/*.cpp"
+            "${dir}/*.cxx"
+            "${dir}/*.cc")
+        list(APPEND format_sources ${dir_sources})
+    endif()
+endforeach()
+
+if(NOT format_sources)
+    message(NOTICE "clang-format: no sources found under "
+            "${format_scan_dirs} -- adjust format_scan_dirs")
+    return()
+endif()
+
+list(LENGTH format_sources format_count)
+
+# ── Write file list for ARG_MAX safety ─────────────────────────
+# Windows cmd.exe limit is ~32 768 chars.  At ~80 chars/path
+# that's ~400 files before truncation — silently.
+# Writing a newline-separated file list and feeding it through
+# a cmake -P runner avoids the issue on every platform.
+set(format_file_list "${CMAKE_CURRENT_BINARY_DIR}/clang-format-files.txt")
+list(
+    JOIN
+    format_sources
+    "\n"
+    format_sources_joined)
+file(WRITE "${format_file_list}" "${format_sources_joined}\n")
+
+set(format_runner "${CMAKE_CURRENT_BINARY_DIR}/run-clang-format.cmake")
 file(
-    GLOB_RECURSE
-    clang_format_sources
-    CONFIGURE_DEPENDS
-    "${PROJECT_SOURCE_DIR}/src/*.cpp"
-    "${PROJECT_SOURCE_DIR}/src/*.cxx"
-    "${PROJECT_SOURCE_DIR}/src/*.hpp"
-    "${PROJECT_SOURCE_DIR}/src/*.hxx"
-    "${PROJECT_SOURCE_DIR}/src/*.h"
-    "${PROJECT_SOURCE_DIR}/src/*.c"
-    "${PROJECT_SOURCE_DIR}/include/*.hpp"
-    "${PROJECT_SOURCE_DIR}/include/*.hxx"
-    "${PROJECT_SOURCE_DIR}/include/*.h")
-
-if(NOT clang_format_sources)
-    message(
-        NOTICE
-        "clang-format: no source files found under src/ or include/. "
-        "Adjust the GLOB patterns in clang_format config if your "
-        "project uses different source directories.")
-    return()
+    WRITE "${format_runner}"
+    [=[
+# Invoked by: cmake -D MODE=... -D CLANG_FORMAT=... -D FILE_LIST=... -P
+cmake_minimum_required(VERSION 3.21)
+file(STRINGS "${FILE_LIST}" sources)
+if(MODE STREQUAL "check")
+    set(args --dry-run --Werror)
+else()
+    set(args -i)
 endif()
 
-list(LENGTH clang_format_sources clang_format_count)
+# Batch into chunks ≤ 30 000 chars to stay under ARG_MAX.
+set(batch "")
+set(batch_len 0)
+foreach(src IN LISTS sources)
+    string(LENGTH "${src}" src_len)
+    math(EXPR next_len "${batch_len} + ${src_len} + 1")
+    if(next_len GREATER 30000 AND batch)
+        execute_process(
+            COMMAND "${CLANG_FORMAT}" ${args} ${batch}
+            COMMAND_ERROR_IS_FATAL ANY)
+        set(batch "")
+        set(batch_len 0)
+    endif()
+    list(APPEND batch "${src}")
+    math(EXPR batch_len "${batch_len} + ${src_len} + 1")
+endforeach()
+if(batch)
+    execute_process(
+        COMMAND "${CLANG_FORMAT}" ${args} ${batch}
+        COMMAND_ERROR_IS_FATAL ANY)
+endif()
+]=])
 
 # ── Format target (modifies files in-place) ────────────────────
-# Usage: cmake --build build --target clang_format
 add_custom_target(
-    clang_format
-    COMMAND "${clang_format_exe}" -i ${clang_format_sources}
+    ${PROJECT_NAME}-format
+    COMMAND
+        "${CMAKE_COMMAND}" -D "MODE=format" -D
+        "CLANG_FORMAT=${clang_format_exe}" -D "FILE_LIST=${format_file_list}" -P
+        "${format_runner}"
     WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
     VERBATIM
-    COMMENT "Running clang-format on ${clang_format_count} source files"
-    USES_TERMINAL)
+    COMMENT "clang-format: formatting ${format_count} files"
+    USES_TERMINAL
+    SOURCES ${format_sources})
 
-# ── Check target (CI — fails if any file needs formatting) ─────
-# Usage: cmake --build build --target clang_format_check
-# Returns non-zero exit code if any file would be changed.
-# --dry-run: don't modify files.
-# --Werror:  treat formatting differences as errors.
-# Requires clang-format 10+ for --dry-run and --Werror.
+# ── Check target (CI gate — fails on diff) ─────────────────────
+# --dry-run + --Werror: clang-format ≥ 10.
 add_custom_target(
-    clang_format_check
-    COMMAND "${clang_format_exe}" --dry-run --Werror ${clang_format_sources}
+    ${PROJECT_NAME}-format-check
+    COMMAND
+        "${CMAKE_COMMAND}" -D "MODE=check" -D "CLANG_FORMAT=${clang_format_exe}"
+        -D "FILE_LIST=${format_file_list}" -P "${format_runner}"
     WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
     VERBATIM
-    COMMENT "Checking clang-format compliance on ${clang_format_count} files"
-    USES_TERMINAL)
+    COMMENT "clang-format: checking ${format_count} files"
+    USES_TERMINAL
+    SOURCES ${format_sources})

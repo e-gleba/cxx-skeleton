@@ -28,18 +28,26 @@ set(CPACK_PACKAGE_VENDOR "${PROJECT_VENDOR}")
 set(CPACK_PACKAGE_CONTACT "${PROJECT_CONTACT}")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_DESCRIPTION}")
 set(CPACK_PACKAGE_HOMEPAGE_URL "${PROJECT_HOMEPAGE_URL}")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "${CPACK_PACKAGE_NAME}"
+)# 3.12+: avoid version in path
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_LICENSE_FILE}")
 set(CPACK_RESOURCE_FILE_README "${PROJECT_README_FILE}")
+set(CPACK_VERBATIM_VARIABLES YES) # 3.4+: always set, prevents escaping bugs
 
 # Long description: use dedicated file if present, fall back
-# to the project readme.
+# to the project readme.  block() isolates the temp variable.
+block(SCOPE_FOR VARIABLES) # 3.25+: no manual unset() needed
 set(pkg_desc_file "${CMAKE_CURRENT_LIST_DIR}/description.txt")
 if(EXISTS "${pkg_desc_file}")
-    set(CPACK_PACKAGE_DESCRIPTION_FILE "${pkg_desc_file}")
+    set(CPACK_PACKAGE_DESCRIPTION_FILE
+        "${pkg_desc_file}"
+        PARENT_SCOPE)
 else()
-    set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_README_FILE}")
+    set(CPACK_PACKAGE_DESCRIPTION_FILE
+        "${PROJECT_README_FILE}"
+        PARENT_SCOPE)
 endif()
-unset(pkg_desc_file)
+endblock()
 
 # ─── CPack icon ────────────────────────────────────────────────────
 if(EXISTS "${PROJECT_ICON_FILE}")
@@ -70,17 +78,18 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     include(GNUInstallDirs)
 
     # ── .desktop file ──────────────────────────────────────
-    set(pkg_desc_desktop_in "${CMAKE_CURRENT_LIST_DIR}/package.desktop.in")
-    if(EXISTS "${pkg_desc_desktop_in}")
+    block(SCOPE_FOR VARIABLES)
+    set(desktop_in "${CMAKE_CURRENT_LIST_DIR}/package.desktop.in")
+    if(EXISTS "${desktop_in}")
         configure_file(
-            "${pkg_desc_desktop_in}"
+            "${desktop_in}"
             "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.desktop" @ONLY)
         install(
             FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.desktop"
             DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications"
             COMPONENT runtime)
     endif()
-    unset(pkg_desc_desktop_in)
+    endblock()
 
     # ── Application icon ───────────────────────────────────
     if(EXISTS "${PROJECT_ICON_FILE}")

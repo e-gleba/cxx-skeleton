@@ -18,13 +18,10 @@ cpmaddpackage(
     TRUE
     OPTIONS
     # Core library config - fast shared build
-    "SDL_STATIC
-    OFF"
-    "SDL_SHARED
-    ON"
+    "SDL_STATIC OFF"
+    "SDL_SHARED ON"
     # Performance optimizations
-    "SDL_CCACHE
-    ON"
+    "SDL_CCACHE ON"
     "CMAKE_BUILD_TYPE RelWithDebInfo"
     # Disable unnecessary features for speed
     "SDL_TEST_LIBRARY OFF"
@@ -33,17 +30,23 @@ cpmaddpackage(
     "SDL_INSTALL_TESTS OFF"
     "SDL_DISABLE_INSTALL_DOCS ON"
     # Platform optimizations (Linux/Wayland focused)
-    "SDL_X11
-    OFF"
-    "SDL_WAYLAND
-    ON"
-    "SDL_VULKAN
-    OFF"
-    "SDL_RENDER_VULKAN
-    OFF"
-    "SDL_ASSEMBLY
-    OFF"
-    "CMAKE_SHARED_LINKER_FLAGS -Wl,-U,___isPlatformVersionAtLeast"
-    "CMAKE_EXE_LINKER_FLAGS -Wl,-U,___isPlatformVersionAtLeast"
+    "SDL_X11 OFF"
+    "SDL_WAYLAND ON"
+    "SDL_VULKAN OFF"
+    "SDL_RENDER_VULKAN OFF"
+    "SDL_ASSEMBLY OFF"
+    # ---- audio: disable missing backends ----
+    "SDL_ALSA OFF"
+    "SDL_JACK OFF"
+    "SDL_PIPEWIRE OFF"
+    "SDL_PULSEAUDIO OFF"
+    "SDL_SNDIO OFF"
+    # ---- joystick/hid: skip libusb ----
+    "SDL_HIDAPI_LIBUSB OFF"
     # Disable X11 screensaver extension
     "SDL_X11_XSCRNSAVER OFF")
+
+if(APPLE AND TARGET SDL3::SDL3-shared)
+    target_link_options(SDL3::SDL3-shared INTERFACE
+                        "SHELL:-Wl,-U,___isPlatformVersionAtLeast")
+endif()
