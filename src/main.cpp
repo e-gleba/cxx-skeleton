@@ -1,7 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
-#include <print>
 #include <version>
 
 [[nodiscard]] consteval const char* detect_os() noexcept
@@ -55,20 +54,12 @@ int main()
     constexpr auto compiler = detect_compiler();
     constexpr auto cpp_std  = detect_std();
 
-    std::println("System Info");
-    std::println("  OS:           {}", os);
-    std::println("  Compiler:     {} {}", compiler.name, compiler.version);
-    std::println("  C++ Standard: {}", cpp_std);
-
-#ifdef __cpp_lib_print
-    std::println("  std::print:   supported ({})", __cpp_lib_print);
-#endif
-
-#ifdef __cpp_lib_format
-    std::println("  std::format:  supported ({})", __cpp_lib_format);
-#endif
-
-    std::println("\nHello, World!");
+    std::cout << "System Info\n"
+              << "  OS:           " << os << '\n'
+              << "  Compiler:     " << compiler.name << ' ' << compiler.version
+              << '\n'
+              << "  C++ Standard: " << cpp_std << '\n'
+              << "\nHello, World!\n";
 
     // flush both stdio and iostream — they share fd but not buffers
     std::cout.flush();
