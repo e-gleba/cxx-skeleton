@@ -105,3 +105,26 @@ cmake/toolchains/osxcross_toolchain/
 cmake/toolchains/.osxcross-src/
 cmake/toolchains/.macos-toolchain-deps/
 cmake/toolchains/.macos-sdk-cache/
+
+# ─── Ghidra ───────────────────────────────────────────────────────────────────
+*.gpr
+*.rep/
+*.ghidra/
+*.lock
+*.ulock
+ghidra_scripts/__pycache__/
+ghidra_scripts/*.pyc
+
+# Ghidra analysis exports (keep .gzf only if intentional)
+*.gzf
+*.bytes
+
+# Sleigh compiler artifacts
+*.sla
+**/data/build.xml
+
+# Ghidra server
+repositories/
+ghidra.repos.config
+Ghidra/.ghidraSvrKeys
+wrapper.log*
