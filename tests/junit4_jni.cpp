@@ -120,19 +120,3 @@ Java_com_egleba_app_AppActivityTest_runTest(JNIEnv* env,
     env->ReleaseStringUTFChars(jname, name);
     return result == 0 ? JNI_TRUE : JNI_FALSE;
 }
-
-extern "C" JNIEXPORT jboolean JNICALL
-Java_com_egleba_app_NativeTestInstrumentation_runTests(JNIEnv* env,
-                                                       const jclass,
-                                                       const jstring jname)
-{
-    doctest::Context context;
-    context.setOption("duration", true);
-
-    // CRITICAL: Prevents doctest from calling exit() which would
-    // terminate the Android process instead of returning to Java
-    context.setOption("no-exitcode", true);
-
-    const int result = context.run();
-    return result == 0 ? JNI_TRUE : JNI_FALSE;
-}

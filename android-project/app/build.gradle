@@ -126,6 +126,8 @@ dependencies {
 
 tasks.register('runNativeTests', Exec) {
     group = "verification"
+    description = "Executes native instrumentation tests and streams C++ output."
+
     // CRITICAL: You must install the Test APK as well
     dependsOn 'installDebug', 'installDebugAndroidTest'
 
