@@ -45,7 +45,7 @@ android {
             }
         }
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.egleba.app.NativeTestInstrumentation"
     }
 
     buildFeatures {
@@ -123,3 +123,23 @@ dependencies {
     androidTestImplementation libs.runner
     androidTestImplementation libs.rules
 }
+
+tasks.register('runNativeTests', Exec) {
+    group = "verification"
+    // CRITICAL: You must install the Test APK as well
+    dependsOn 'installDebug', 'installDebugAndroidTest'
+
+    def adb = "${android.getSdkDirectory().absolutePath}/platform-tools/adb"
+    executable adb
+
+    // Most likely, your test package has .test appended by Gradle automatically
+    def testPackage = "${android.namespace}.test"
+    def runnerClass = "com.egleba.app.NativeTestInstrumentation"
+
+    args 'shell', 'am', 'instrument', '-w', "${testPackage}/${runnerClass}"
+
+    doFirst {
+        println "Running: adb shell am instrument -w ${testPackage}/${runnerClass}"
+    }
+}
+

@@ -54,9 +54,9 @@ add_subdirectory(src)
 if(PROJECT_IS_TOP_LEVEL)
     # include(CTest) creates the BUILD_TESTING cache option
     # (default ON) and sets up CDash integration.
-    if(NOT CMAKE_CROSSCOMPILING)
-        include(CTest)
-    endif()
+    #if(NOT CMAKE_CROSSCOMPILING)
+    include(CTest)
+    #endif()
 
     if(BUILD_TESTING)
         add_subdirectory(tests)
