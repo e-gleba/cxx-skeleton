@@ -5,9 +5,9 @@ cpmaddpackage(
     GITHUB_REPOSITORY
     libsdl-org/SDL
     VERSION
-    3.4.2
+    3.4.4
     GIT_TAG
-    release-3.4.2
+    release-3.4.4
     GIT_SHALLOW
     ON
     SYSTEM
@@ -32,7 +32,7 @@ cpmaddpackage(
     "SDL_HAPTIC OFF"
     "SDL_HIDAPI OFF"
     "SDL_POWER OFF"
-    "SDL_SENSOR OFF"
+    "SDL_SENSOR ${ANDROID}"
     "SDL_DIALOG OFF"
     # ---- video backends: only what each platform needs ----
     "SDL_X11 OFF"

@@ -19,7 +19,7 @@ set(PROJECT_GROUP "System")
 
 # ─── Resource files ────────────────────────────────────────────────
 set(PROJECT_ICON_FILE "${CMAKE_CURRENT_LIST_DIR}/icon.png")
-set(PROJECT_LICENSE_FILE "${PROJECT_SOURCE_DIR}/license")
+set(PROJECT_LICENSE_FILE "${PROJECT_SOURCE_DIR}/license.md")
 set(PROJECT_README_FILE "${PROJECT_SOURCE_DIR}/readme.md")
 
 # ─── CPack core configuration ─────────────────────────────────────
