@@ -30,29 +30,13 @@ public final class AppActivityTest {
         System.loadLibrary("tests");
     }
 
-    /// Retrieves the list of available native test names.
-    ///
-    /// Queries the embedded native test suite for registered test identifiers.
-    /// Used to populate JUnit parameterized instances.
-    ///
-    /// @return Array of native test names, or null if unavailable
     public static native String[] getTestNames();
 
-    /// Executes a specific native test by name.
-    ///
-    /// @param name Test identifier to run
-    /// @return true if passed, false otherwise
     public static native boolean runTest(String name);
 
-    /// The name of the current test case being executed.
     @Parameterized.Parameter
     public String testName;
 
-    /// Provides test parameters for JUnit's parameterized runner.
-    ///
-    /// Safely handles null or empty native test lists to avoid runtime errors.
-    ///
-    /// @return Collection of test name parameters; empty if no tests found
     @Parameters(name = "{0}")
     public static Collection<Object[]> data() {
         final String[] names = Objects.requireNonNull(getTestNames(),
@@ -62,9 +46,6 @@ public final class AppActivityTest {
                 .collect(Collectors.toList());
     }
 
-    /// Executes a single native test case.
-    ///
-    /// Asserts that the native test passes; includes test name in failure message.
     @Test
     public void runSingle() {
         assertTrue("❌ Native test '" + testName + "' failed", runTest(testName));

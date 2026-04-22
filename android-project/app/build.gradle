@@ -45,7 +45,6 @@ android {
             }
         }
 
-        // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "com.egleba.app.NativeTestInstrumentation"
     }
 
