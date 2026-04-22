@@ -9,10 +9,10 @@ else {
 }
 
 android {
-    compileSdk 36
-    ndkVersion = '29.0.14206865'
+    compileSdk = 37
+    ndkVersion = '30.0.14904198 rc1'
     namespace = "com.egleba.app"
-    buildToolsVersion = '36.1.0'
+    buildToolsVersion = '37.0.0'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -25,7 +25,7 @@ android {
         }
 
         minSdk = 24
-        targetSdk 36
+        targetSdk 37
         versionCode = 1
         versionName = "1.0.0"
 
@@ -108,7 +108,6 @@ android {
         abortOnError = false
         checkReleaseBuilds = false
     }
-    compileSdkMinor 1
 }
 
 dependencies {
