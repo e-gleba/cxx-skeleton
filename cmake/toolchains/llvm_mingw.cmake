@@ -122,6 +122,15 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
+# Explicitly pass --sysroot via compiler flags as a belt-and-suspenders guard,
+# so even if CMake loses the variable the compiler gets the right sysroot.
+string(APPEND CMAKE_C_FLAGS_INIT " --sysroot=${_install}/${_triple}")
+string(APPEND CMAKE_CXX_FLAGS_INIT " --sysroot=${_install}/${_triple}")
+string(APPEND CMAKE_EXE_LINKER_FLAGS_INIT
+       " -fuse-ld=lld --sysroot=${_install}/${_triple}")
+string(APPEND CMAKE_SHARED_LINKER_FLAGS_INIT
+       " -fuse-ld=lld --sysroot=${_install}/${_triple}")
+
 # ── clang-tidy: disable when cross-compiling ─────────────────────────────────
 # host clang-tidy is version-mismatched against bundled libc++ headers
 set(CMAKE_C_CLANG_TIDY
