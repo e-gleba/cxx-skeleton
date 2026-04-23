@@ -148,7 +148,7 @@ jobs:
     # ── android APK build ────────────────────────────────────────────────────────
     # Gradle daemon disabled — ephemeral CI runners gain nothing from persistence.
     build-apk:
-        name: android / ${{ matrix.abi }} ${{ matrix.build-type }}
+        name: android / ${{ matrix.build-type }}
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
@@ -156,16 +156,11 @@ jobs:
                 include:
                     - build-type: debug
                       gradle-task: assembleDebug
-                      abi: x86_64
-                    # - build-type: debug
-                    #   gradle-task: assembleDebug
-                    #   abi: arm64-v8a
                     # - build-type: release
                     #   gradle-task: assembleRelease
-                    #   abi: arm64-v8a
 
         env:
-            ANDROID_PROJECT_DIR: android-project
+            ANDROID_PROJECT_DIR: ${{ github.workspace }}/android-project
             GRADLE_OPTS: >-
                 -Dorg.gradle.daemon=false
                 -Dorg.gradle.parallel=true
@@ -175,37 +170,35 @@ jobs:
             - name: checkout
               uses: actions/checkout@v6
 
-            # setup-java cache: gradle handles ~/.gradle/caches + wrapper automatically
             - name: setup jdk 17
-              uses: actions/setup-java@v4
+              uses: actions/setup-java@v5
               with:
                   java-version: "17"
                   distribution: temurin
-                  cache: gradle
+
+            # Owns ~/.gradle/caches + wrapper cache. Do NOT add cache: gradle to setup-java.
+            - name: setup gradle
+              uses: gradle/actions/setup-gradle@v5
 
             - name: cache cpm sources
               uses: actions/cache@v5
               with:
-                  path: .cpm_cache
-                  key: cpm-android-${{ matrix.abi }}-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
-                  restore-keys: cpm-android-${{ matrix.abi }}-
+                  path: ${{ github.workspace }}/.cpm_cache
+                  key: cpm-android-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
+                  restore-keys: cpm-android-
 
-            # `|| true` prevents failure when all licenses are already accepted
-            # (sdkmanager exits 1 in that case).
+            # sdkmanager exits 1 when all licenses already accepted — || true swallows it.
             - name: accept android sdk licenses
               run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
             - name: build apk
               working-directory: ${{ env.ANDROID_PROJECT_DIR }}
-              run: |
-                  chmod +x gradlew
-                  ./gradlew --stacktrace \
-                    :app:${{ matrix.gradle-task }} \
-                    -Pandroid.injected.build.abi=${{ matrix.abi }}
+              run: gradle --stacktrace :app:${{ matrix.gradle-task }}
 
             - name: upload apk artifact
               uses: actions/upload-artifact@v7
               with:
-                  name: android-${{ matrix.abi }}-${{ matrix.build-type }}-apk
-                  path: ${{ env.ANDROID_PROJECT_DIR }}/app/build/outputs/apk/**/*.apk
+                  name: android-${{ matrix.build-type }}-apk
+                  path: ${{ env.ANDROID_PROJECT_DIR }}/app/build/outputs/apk/${{ matrix.build-type }}/*.apk
                   if-no-files-found: error
+                  compression-level: 0
