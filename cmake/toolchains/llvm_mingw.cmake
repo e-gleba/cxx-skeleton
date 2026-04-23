@@ -1,91 +1,104 @@
-cmake_minimum_required(VERSION 3.21)
+# cmake/toolchains/llvm_mingw.cmake
+include_guard(GLOBAL)
 
-set(llvm_mingw_ver "20251216")
-set(llvm_mingw_os "ubuntu-22.04")
-set(llvm_mingw_arch
-    "$<IF:$<STREQUAL:${CMAKE_HOST_SYSTEM_PROCESSOR},aarch64>,aarch64,x86_64>")
+set(CMAKE_SYSTEM_NAME Windows)
 
-# resolve host arch at configure time (genexps not available here)
-if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
-    set(host_arch "aarch64")
-else()
-    set(host_arch "x86_64")
+if(NOT DEFINED CMAKE_SYSTEM_PROCESSOR)
+    set(CMAKE_SYSTEM_PROCESSOR x86_64)
 endif()
 
-set(target_prefix "${CMAKE_SYSTEM_PROCESSOR}-w64-mingw32")
-set(pkg_name "llvm-mingw-${llvm_mingw_ver}-ucrt-${llvm_mingw_os}-${host_arch}")
-set(toolchain_dir "${CMAKE_SOURCE_DIR}/llvm_mingw")
+set(LLVM_MINGW_VERSION
+    "20260421"
+    CACHE STRING "llvm-mingw release tag")
+set(LLVM_MINGW_HOST_OS
+    "ubuntu-22.04"
+    CACHE STRING "llvm-mingw host package suffix")
+option(LLVM_MINGW_AUTO_DOWNLOAD "Download llvm-mingw if missing" ON)
 
-option(DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST "auto-download llvm-mingw" ON)
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "^(aarch64|arm64|ARM64)$")
+    set(_host_arch aarch64)
+else()
+    set(_host_arch x86_64)
+endif()
 
-message(CHECK_START "llvm-mingw")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64|arm64|ARM64)$")
+    set(_triple aarch64-w64-mingw32)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
+    set(_triple x86_64-w64-mingw32)
+else()
+    message(
+        FATAL_ERROR
+            "unsupported CMAKE_SYSTEM_PROCESSOR='${CMAKE_SYSTEM_PROCESSOR}'")
+endif()
 
-if(NOT EXISTS "${toolchain_dir}/bin/clang")
-    if(NOT DOWNLOAD_LLVM_MINGW_IF_NOT_EXIST)
-        message(
-            FATAL_ERROR "llvm-mingw not found at '${toolchain_dir}'"
-                        " => re-run with -DDOWNLOAD_LLVM_MINGW_IF_NOT_EXIST=ON")
+get_filename_component(_root_dir "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+set(_install_dir "${_root_dir}/llvm_mingw")
+set(_pkg
+    "llvm-mingw-${LLVM_MINGW_VERSION}-ucrt-${LLVM_MINGW_HOST_OS}-${_host_arch}")
+set(_url
+    "https://github.com/mstorsjo/llvm-mingw/releases/download/${LLVM_MINGW_VERSION}/${_pkg}.tar.xz"
+)
+set(_archive "${_root_dir}/${_pkg}.tar.xz")
+
+if(NOT EXISTS "${_install_dir}/bin/${_triple}-clang")
+    if(NOT LLVM_MINGW_AUTO_DOWNLOAD)
+        message(FATAL_ERROR "llvm-mingw not found: '${_install_dir}'")
     endif()
 
-    set(dl_url
-        "https://github.com/mstorsjo/llvm-mingw/releases/download/${llvm_mingw_ver}/${pkg_name}.tar.xz"
-    )
-    set(archive "${CMAKE_SOURCE_DIR}/${pkg_name}.tar.xz")
-
-    message(STATUS "fetching ${pkg_name}")
     file(
-        DOWNLOAD "${dl_url}" "${archive}"
+        DOWNLOAD "${_url}" "${_archive}"
         SHOW_PROGRESS
-        STATUS dl_status)
+        STATUS _dl
+        TLS_VERIFY ON)
     list(
         GET
-        dl_status
+        _dl
         0
-        dl_code)
+        _dl_code)
     if(NOT
-       dl_code
+       _dl_code
        EQUAL
        0)
         list(
             GET
-            dl_status
+            _dl
             1
-            dl_msg)
-        file(REMOVE "${archive}")
-        message(FATAL_ERROR "download failed: '${dl_msg}'")
+            _dl_msg)
+        file(REMOVE "${_archive}")
+        message(FATAL_ERROR "download failed: '${_dl_msg}'")
     endif()
 
-    message(STATUS "extracting '${pkg_name}.tar.xz'")
     file(
         ARCHIVE_EXTRACT
         INPUT
-        "${archive}"
+        "${_archive}"
         DESTINATION
-        "${CMAKE_SOURCE_DIR}")
-    file(REMOVE_RECURSE "${toolchain_dir}")
-    file(RENAME "${CMAKE_SOURCE_DIR}/${pkg_name}" "${toolchain_dir}")
-    file(REMOVE "${archive}")
+        "${_root_dir}")
+    file(REMOVE_RECURSE "${_install_dir}")
+    file(RENAME "${_root_dir}/${_pkg}" "${_install_dir}")
+    file(REMOVE "${_archive}")
 endif()
 
-message(CHECK_PASS "'${toolchain_dir}'")
-
 set(CMAKE_C_COMPILER
-    "${toolchain_dir}/bin/${target_prefix}-clang"
-    CACHE FILEPATH "")
+    "${_install_dir}/bin/${_triple}-clang"
+    CACHE FILEPATH "" FORCE)
 set(CMAKE_CXX_COMPILER
-    "${toolchain_dir}/bin/${target_prefix}-clang++"
-    CACHE FILEPATH "")
+    "${_install_dir}/bin/${_triple}-clang++"
+    CACHE FILEPATH "" FORCE)
 set(CMAKE_RC_COMPILER
-    "${toolchain_dir}/bin/${target_prefix}-windres"
-    CACHE FILEPATH "")
+    "${_install_dir}/bin/${_triple}-windres"
+    CACHE FILEPATH "" FORCE)
 set(CMAKE_AR
-    "${toolchain_dir}/bin/llvm-ar"
-    CACHE FILEPATH "")
+    "${_install_dir}/bin/llvm-ar"
+    CACHE FILEPATH "" FORCE)
 set(CMAKE_RANLIB
-    "${toolchain_dir}/bin/llvm-ranlib"
-    CACHE FILEPATH "")
+    "${_install_dir}/bin/llvm-ranlib"
+    CACHE FILEPATH "" FORCE)
 
-set(CMAKE_FIND_ROOT_PATH "${toolchain_dir}/${target_prefix}")
+set(CMAKE_SYSROOT
+    "${_install_dir}/${_triple}"
+    CACHE PATH "" FORCE)
+set(CMAKE_FIND_ROOT_PATH "${CMAKE_SYSROOT}")
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
