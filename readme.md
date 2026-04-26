@@ -200,3 +200,4 @@ Curated C++ ecosystem links — standards, tooling, and community references —
 ## Documentation
 
 - [Docker Guide](docs/docker.md)
+- [Presets](docs/presets.md)
