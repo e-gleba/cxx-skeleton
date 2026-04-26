@@ -145,7 +145,7 @@ jobs:
                   if-no-files-found: ignore
                   compression-level: 0
 
-    # ── android APK build ────────────────────────────────────────────────────────
+        # ── android APK build ────────────────────────────────────────────────────────
     # Gradle daemon disabled — ephemeral CI runners gain nothing from persistence.
     build-apk:
         name: android / ${{ matrix.build-type }}
@@ -154,10 +154,10 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                    - build-type: debug
-                      gradle-task: assembleDebug
-                    # - build-type: release
-                    #   gradle-task: assembleRelease
+                    - build-type: release
+                      gradle-task: assembleRelease
+                    # - build-type: debug
+                    #   gradle-task: assmbleDebug
 
         env:
             ANDROID_PROJECT_DIR: ${{ github.workspace }}/android-project
@@ -176,9 +176,12 @@ jobs:
                   java-version: "17"
                   distribution: temurin
 
-            # Owns ~/.gradle/caches + wrapper cache. Do NOT add cache: gradle to setup-java.
             - name: setup gradle
               uses: gradle/actions/setup-gradle@v5
+              with:
+                  build-scan-publish: true
+                  build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+                  build-scan-terms-of-use-agree: "yes"
 
             - name: cache cpm sources
               uses: actions/cache@v5
@@ -229,6 +232,10 @@ jobs:
 
             - name: setup gradle
               uses: gradle/actions/setup-gradle@v5
+              with:
+                  build-scan-publish: true
+                  build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+                  build-scan-terms-of-use-agree: "yes"
 
             - name: cache cpm sources
               uses: actions/cache@v5
@@ -263,5 +270,5 @@ jobs:
                   path: |
                       ${{ env.ANDROID_PROJECT_DIR }}/app/build/outputs/androidTest-results/
                       ${{ env.ANDROID_PROJECT_DIR }}/app/build/reports/androidTests/
-                  if-no-files-found: warn
+                  if-no-files-found: error
                   compression-level: 0
