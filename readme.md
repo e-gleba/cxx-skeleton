@@ -210,12 +210,6 @@ cmake --build build/gcc --target doxygen
 
 Output: `build/gcc/docs/doxygen/html`.
 
-## Docker
-
-```bash
-docker build -t cxx-skeleton -f docker/fedora.Dockerfile .
-docker run --rm -v "$(pwd):/src" cxx-skeleton cmake --workflow --preset=gcc-full
-```
 
 ## Android
 
@@ -262,3 +256,7 @@ For inquiries, reach out via email or through the website above, or open a [Disc
 ---
 
 Curated C++ ecosystem links — standards, tooling, and community references — are maintained in [docs/references.md](docs/references.md).
+
+## Documentation
+
+- [Docker Guide](docs/docker.md)
