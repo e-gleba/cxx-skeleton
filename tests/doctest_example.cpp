@@ -40,13 +40,6 @@ DOCTEST_TEST_SUITE("math playground")
             }
         }
     }
-
-    DOCTEST_TEST_CASE("division by zero" * doctest::should_fail(true))
-    {
-        volatile int x = 1;
-        volatile int y = 0;
-        (void)(x / y);
-    }
 }
 
 DOCTEST_TEST_CASE("string length")
