@@ -49,16 +49,16 @@ Most CMake starters stop at "it builds on my machine". This template goes furthe
 | WebAssembly | ❌ [planned (#2)](https://github.com/e-gleba/cmake_template/issues/2) | ✅ + GitHub Pages deploy | ❌ | ❌ | ❌ |
 | Docker / CI-ready | ✅ Dockerfile + GitHub Actions | ✅ Docker + Actions | ❌ | ❌ | ✅ GitHub Actions |
 | CPack packaging | ✅ tar.gz / zip / tar.xz | ❌ | ❌ | ❌ | ❌ |
-| Dependency manager | CPM | CPM | — | — | — |
-| Sanitizers (ASan/UBSan) | ❌ | ✅ | ❌ | ❌ | ❌ |
+| Dependency manager | CPM + [prebuilt/air-gapped (#8)](https://github.com/e-gleba/cmake_template/issues/8) | CPM | — | — | — |
+| Sanitizers (ASan/UBSan) | ❌ [planned (#9)](https://github.com/e-gleba/cmake_template/issues/9) | ✅ | ❌ | ❌ | ❌ |
 | Fuzz testing | ❌ | ✅ libFuzzer | ❌ | ❌ | ❌ |
-| Codecov / CodeQL | ❌ | ✅ | ❌ | ❌ | ❌ |
+| Codecov / CodeQL | ❌ [planned (#10)](https://github.com/e-gleba/cmake_template/issues/10) | ✅ | ❌ | ❌ | ❌ |
 | Qt / OpenGL | ❌ | ❌ | ❌ | ✅ | ❌ |
 | Audio / JUCE | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Conan / vcpkg | ❌ [planned (#3)](https://github.com/e-gleba/cmake_template/issues/3) | ❌ | ❌ | ❌ | ❌ |
 | C++20 modules | ❌ [planned (#5)](https://github.com/e-gleba/cmake_template/issues/5) | ❌ | ❌ | ❌ | ❌ |
 
-> Honest notes: this template is intentionally generic — it does not include Qt, OpenGL, audio scaffolding, or sanitizers. Those are well covered by specialized starters above. We focus on cross-platform build engineering and packaging.
+> Honest notes: this template is intentionally generic — it does not include Qt, OpenGL, audio scaffolding, or fuzz testing. Those are well covered by specialized starters above. We focus on cross-platform build engineering and packaging.
 
 ## Prerequisites
 
