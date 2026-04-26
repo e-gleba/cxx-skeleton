@@ -253,10 +253,11 @@ The project generates `compile_commands.json` and is compatible with CLion, Visu
 Need help with **CMake architecture**, **cross-compilation pipelines**, **CI/CD for C++**, or **packaging with CPack**? I help teams reduce build friction and ship faster.
 
 - 🌐 [e-gleba.github.io](https://e-gleba.github.io) — contacts, portfolio, and blog
+- 📧 i@egleba.ru — direct inquiries (fastest response)
 - 💼 Open for **freelance** and **contract work** (up to $150/hr depending on scope)
 - 🛠️ Services: CMake audits, toolchain setup, Docker/CI optimization, custom presets, onboarding workshops
 
-For inquiries, reach out through the website above or open a [Discussion](https://github.com/e-gleba/cmake_template/discussions).
+For inquiries, reach out via email or through the website above, or open a [Discussion](https://github.com/e-gleba/cmake_template/discussions).
 
 ---
 
