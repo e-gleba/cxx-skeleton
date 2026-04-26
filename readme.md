@@ -11,7 +11,7 @@
   <a href="license.md"><img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&labelColor=1C1C1C" alt="License"/></a>
 </p>
 
-Modern C++ project template. Ninja Multi-Config, CPM, CPack, cross-compilation, code quality tooling — zero friction from clone to package.
+Production-ready C++ template with **Android NDK**, **cross-compilation to Windows**, **Docker**, **CPack**, and **one-command CI pipelines**. Targets C++23/26. Ninja Multi-Config, CPM, code-quality tooling — zero friction from clone to package.
 
 ## Quick Start
 
@@ -26,6 +26,35 @@ Full pipeline (configure → build → test → package):
 ```bash
 cmake --workflow --preset=gcc-full
 ```
+
+## Why this template?
+
+Most CMake starters stop at "it builds on my machine". This template goes further with first-class cross-compilation and packaging.
+
+- **Android NDK out of the box** — 4 presets (arm64, arm32, x64, x86) with API 24.
+- **Linux → Windows cross-compile** — 3 llvm-mingw presets (x86_64, i686, aarch64).
+- **Reproducible builds** — Docker images for CI and local development.
+- **One-command pipelines** — `cmake --workflow` handles configure → build → test → package.
+- **Modern standards** — C++23/26 with clang-tidy, clang-format, IWYU-ready structure.
+
+## Comparison
+
+| Feature | cmake_template | [kigster/cmake-project-template](https://github.com/kigster/cmake-project-template) | [district10/cmake-templates](https://github.com/district10/cmake-templates) | [pamplejuce](https://github.com/sudara/pamplejuce) |
+| :-- | :--: | :--: | :--: | :--: |
+| Pitch | Generic C++ starter with cross-compile | Minimal C/C++ starter | Qt / Boost / OpenCV examples | JUCE audio plugins |
+| C++ Standard | **23 / 26** | unspecified | **11** | unspecified |
+| CMake Presets | 10+ with workflows | basic | — | JUCE-oriented |
+| Android NDK | ✅ | ❌ | ❌ | ❌ |
+| Linux → Windows cross | ✅ llvm-mingw | ❌ | ❌ | ❌ |
+| Docker / CI-ready | ✅ Dockerfile + GitHub Actions | ❌ | ❌ | ✅ GitHub Actions |
+| CPack packaging | ✅ tar.gz / zip / tar.xz | ❌ | ❌ | ❌ |
+| Dependency manager | CPM | — | — | — |
+| Qt / OpenGL | ❌ | ❌ | ✅ | ❌ |
+| Audio / JUCE | ❌ | ❌ | ❌ | ✅ |
+| Conan / vcpkg | ❌ [planned (#3)](https://github.com/e-gleba/cmake_template/issues/3) | ❌ | ❌ | ❌ |
+| C++20 modules | ❌ [planned (#5)](https://github.com/e-gleba/cmake_template/issues/5) | ❌ | ❌ | ❌ |
+
+> Honest notes: this template is intentionally generic — it does not include Qt, OpenGL, or audio scaffolding. Those are well covered by specialized starters above. We focus on cross-platform build engineering.
 
 ## Prerequisites
 
