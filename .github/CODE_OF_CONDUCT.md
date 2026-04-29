@@ -38,7 +38,7 @@ By participating in this project, you agree to adhere to the following rules.
 
 ## Reporting Issues
 
-If you encounter behavior that violates this Code of Conduct, please report it to the project maintainers at **[your-email@example.com]**. All reports will be reviewed confidentially.
+If you encounter behavior that violates this Code of Conduct, please report it to the project maintainers at **i@egleba.ru**. All reports will be reviewed confidentially.
 
 ---
 

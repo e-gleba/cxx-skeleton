@@ -19,7 +19,7 @@ If you discover a security vulnerability in this project, please report it **pri
 
 ### Steps to Report:
 
-1. Email the maintainers at **[your-email@example.com]** with the subject line: `SECURITY ISSUE: [Brief Description]`.
+1. Email the maintainers at **i@egleba.ru** with the subject line: `SECURITY ISSUE: [Brief Description]`.
 2. Include the following details in your report:
     - A clear description of the vulnerability.
     - Steps to reproduce the issue.
