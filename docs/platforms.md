@@ -1,16 +1,13 @@
-## Android
+# Platforms
 
-Set `ANDROID_NDK_HOME` and run:
+**This document has been merged into the comprehensive [Presets and Cross-Compilation Guide](presets.md).**
 
-```bash
-export ANDROID_NDK_HOME=/path/to/ndk
-cmake --workflow --preset=android-arm64-full
-```
+Please refer to `docs/presets.md` for:
 
-## Cross-Compilation (Linux → Windows)
+- Detailed preset tables for native, Android, Windows cross-compilation
+- Merged platform-specific setup instructions
+- Philosophy of how presets enable transparent cross-compilation
+- Roadmap for macOS and iOS support with Xcode generator (see [#20](https://github.com/e-gleba/cmake_template/issues/20))
+- Extension guidelines and troubleshooting
 
-Requires [llvm-mingw](https://github.com/mstorsjo/llvm-mingw) on `PATH`:
-
-```bash
-cmake --workflow --preset=llvm-mingw-x86_64-full
-```
+The consolidation provides a single source of truth for all build configuration and platform support information, making the documentation more maintainable and professional.
