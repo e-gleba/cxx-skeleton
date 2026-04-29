@@ -1,113 +1,51 @@
-# Using Docker Images for Local C++ Development
+# Docker Build Environment Reference
 
-Harness the power of containerized toolchains and documentation generation for your C++ projects.  
-Below are quick-start guides for **Manjaro** and **Fedora** Docker images, featuring clear commands and a nod to fancy error messages.
+This directory contains **reproducible containerized build environments** for the cmake_template project.
 
----
+## Files
 
-## 1. Build the Docker Image
+| File | Purpose |
+|------|---------|
+| `fedora.Dockerfile` | Primary CI/development image. Stable toolchain, well-tested. Recommended default. |
+| `manjaro.Dockerfile` | Rolling-release validation. Tests compatibility with latest compiler versions. |
+| `.dockerignore` | Excludes build artifacts, editor files, and large directories from the build context. |
 
-### For Manjaro/Arch-Based Image
+## Usage
 
-```bash
-docker build -t cpp-dev-manjaro -f manjaro.Dockerfile .
-```
+For comprehensive usage instructions (build commands, CI integration, troubleshooting, architecture rationale), see the project's main Docker documentation at [`docs/docker.md`](../docs/docker.md).
 
-### For Fedora-Based Image
-
-```bash
-docker build -t cpp-dev-fedora -f fedora.Dockerfile .
-```
-
----
-
-## 2. Run the Container
-
-### Interactive Shell (For Development & Debugging)
-
-#### Manjaro
+## Quick Commands
 
 ```bash
-docker run --rm -it -v $(pwd):/app cpp-dev-manjaro
+# Build Fedora image
+docker build -t cmake-template:fedora -f fedora.Dockerfile ..
+
+# Build Manjaro image
+docker build -t cmake-template:manjaro -f manjaro.Dockerfile ..
+
+# Run full workflow (mount project root)
+docker run --rm -v "$(pwd)/..:/app" cmake-template:fedora
+
+# Interactive shell
+docker run --rm -it -v "$(pwd)/..:/app" --entrypoint bash cmake-template:fedora
 ```
 
-#### Fedora
+> All images require BuildKit (`DOCKER_BUILDKIT=1`) for cache mount support.
 
-```bash
-docker run --rm -it -v $(pwd):/app cpp-dev-fedora
-```
+## Design Notes
 
-> **Tip:**  
-> Inside the container, you’ll find a full toolchain and documentation tools.  
-> Type `doxygen -v` or `clang --version` to check your setup.
+- Both Dockerfiles use a **single-stage build** strategy. They are full development environments, not minimal runtime containers.
+- **BuildKit cache mounts** (`--mount=type=cache`) accelerate local rebuilds by persisting package manager caches.
+- `COPY` happens after system dependency installation to maximize Docker layer cache efficiency.
+- `ENTRYPOINT` defaults to `cmake --workflow --preset=gcc-full` for one-command CI equivalence.
 
----
+## Contributing
 
-## 3. Run Automated Workflows
+When modifying these files:
 
-If your Dockerfile uses the workflow entrypoint, you can run:
+1. Ensure `cmake --list-presets` validation still passes.
+2. Verify the image builds with `docker build --no-cache`.
+3. Test the full workflow: `docker run --rm -v "$(pwd)/..:/app" <image>`.
+4. Update `docs/docker.md` if behavior or available images change.
 
-```bash
-docker run --rm -v $(pwd):/app cpp-dev-manjaro
-```
-
-or
-
-```bash
-docker run --rm -v $(pwd):/app cpp-dev-fedora
-```
-
-> **Fancy Output Example:**
->
-> ```
-> 🚀 Building with cmake --workflow --preset=gcc-full
-> ⚡️ Compiling with ninja...
-> 📄 Generating documentation with doxygen...
-> ```
-
----
-
-## 4. Generate Documentation
-
-Inside the container (or via a script):
-
-```bash
-doxygen Doxyfile
-```
-
----
-
-## 5. (Optional) Fancy Error Messages
-
-Add this to your build scripts for a Rust-like error experience:
-
-```bash
-function fancy_error {
-  echo -e "\e[31m🚨 Error: $1\e[0m" >&2
-  exit 1
-}
-cmake --build build || fancy_error "Build failed!"
-```
-
----
-
-## 6. Clean Up
-
-Stop and remove all containers:
-
-```bash
-docker system prune -f
-```
-
----
-
-# ✨ Quick Reference Table
-
-| Step         | Command Example                                           |
-| ------------ | --------------------------------------------------------- |
-| Build        | `docker build -t cpp-dev-manjaro -f Dockerfile.manjaro .` |
-| Run Shell    | `docker run --rm -it -v $(pwd):/app cpp-dev-manjaro`      |
-| Run Workflow | `docker run --rm -v $(pwd):/app cpp-dev-manjaro`          |
-| Docs         | `doxygen Doxyfile`                                        |
-| Cleanup      | `docker system prune -f`                                  |
-
+See [`docs/contributing.md`](../docs/contributing.md) for project-wide contribution guidelines.
