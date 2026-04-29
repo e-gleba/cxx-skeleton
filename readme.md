@@ -26,6 +26,15 @@ Full pipeline (configure → build → test → package):
 ```bash
 cmake --workflow --preset=gcc-full
 ```
+## Why this template?
+
+Most CMake starters stop at "it builds on my machine". This template goes further with first-class cross-compilation and packaging.
+
+- **Android NDK out of the box** — 4 presets (arm64, arm32, x64, x86) with API 24.
+- **Linux → Windows cross-compile** — 3 llvm-mingw presets (x86_64, i686, aarch64).
+- **Reproducible builds** — Docker images for CI and local development.
+- **One-command pipelines** — `cmake --workflow` handles configure → build → test → package.
+- **Modern standards** — C++23/26 with clang-tidy, clang-format, IWYU-ready structure.
 
 ## Comparison
 
@@ -53,6 +62,16 @@ cmake --workflow --preset=gcc-full
 
 > Honest notes: this template is intentionally generic — it does not include Qt, OpenGL, audio scaffolding, or fuzz testing. Those are well covered by specialized starters above. We focus on cross-platform build engineering and packaging.
 
+## Consulting
+
+Need help with **CMake architecture**, **cross-compilation pipelines**, **CI/CD for C++**, or **packaging with CPack**? I help teams reduce build friction and ship faster.
+
+- 🌐 [e-gleba.github.io](https://e-gleba.github.io) — contacts, portfolio, and blog
+- 📧 i@egleba.ru — direct inquiries (fastest response)
+- 💼 Open for **freelance** and **contract work** (up to $150/hr depending on scope)
+- 🛠️ Services: CMake audits, toolchain setup, Docker/CI optimization, custom presets, onboarding workshops
+
+For inquiries, reach out via email or through the website above, or open a [Discussion](https://github.com/e-gleba/cmake_template/discussions).
 
 ---
  
